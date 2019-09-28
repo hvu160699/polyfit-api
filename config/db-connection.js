@@ -1,12 +1,10 @@
 var mysql = require('mysql');
 
-module.exports = {
-    connection: function () {
-        return mysql.createConnection({
-            host: 'localhost',
-            user: 'root',
-            password: 'root',
-            database: 'poly_fit_database'
-        });
-    }
-}
+const connection = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'root',
+    database: 'poly_fit_database'
+})
+
+module.exports = connection
