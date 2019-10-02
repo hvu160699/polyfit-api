@@ -7,7 +7,7 @@ const path = '/'
 router.get(path, (req, res) => {
     con.query("SELECT * FROM `polyfit_users`", function (err, result, fields) {
         if (err) return err;
-        res.send(result);
+        res.json(result);
     });
 })
 

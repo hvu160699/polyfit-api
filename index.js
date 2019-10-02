@@ -18,4 +18,7 @@ app.use('/user', routes.User)
 app.use('/history', routes.History)
 
 
-app.listen(3030)
+const port = process.env.PORT || 3030
+app.listen(port, function() {
+  console.log("Listening on " + port)
+});
