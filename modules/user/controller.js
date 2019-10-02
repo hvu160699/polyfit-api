@@ -52,6 +52,7 @@ router.post("/login", (req, res) => {
             const hashed_password = utils.checkHashPassword(login_password, salt).passwordHash;
             if (password == hashed_password) {
                 res.end("Login success !")
+                res.end(JSON.stringify(result[0]))
             }
             else {
                 res.end("Wrong password !");
