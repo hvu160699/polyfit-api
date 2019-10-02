@@ -18,6 +18,10 @@ router.post("/register", (req, res) => {
     const hash_data = utils.saltHashPassword(plaint_password);
     const password = hash_data.passwordHash;
     const salt = hash_data.salt;
+    const weight=req.body.weight;
+    const height=req.body.height;
+    const bmi=req.body.bmi;
+    const gender=req.body.gender;
 
     con.query("SELECT * FROM `polyfit_users` WHERE username=?", [username], (err, result, fields) => {
         con.on('error', (err) => {
@@ -27,7 +31,7 @@ router.post("/register", (req, res) => {
             res.json('Username already exists !!!');
         } else {
             const registerSQL = "INSERT INTO `polyfit_users` (`display_name`, `username`, `password`, `password_salt`, `weight`, `height`, `bmi`, `gender`, `create_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())"
-            con.query(registerSQL, [display_name, username, password, salt, 0, 0, 20.2, 1], () => {
+            con.query(registerSQL, [display_name, username, password, salt, weight, height, bmi, gender], () => {
                 con.on('error', err => {
                     console.log("MySQL ERROR : ", err);
                     res.json("Register error : ", err);
@@ -36,6 +40,14 @@ router.post("/register", (req, res) => {
             })
         }
     })
+})
+
+router.get("/getByUserName/:username", (req, res) => {
+    const username=req.params.username;
+    con.query("SELECT * FROM `polyfit_users` WHERE `username`=?",username, function (err, result, fields) {
+        if (err) return err;
+        res.send(result);
+    });
 })
 
 router.post("/login", (req, res) => {

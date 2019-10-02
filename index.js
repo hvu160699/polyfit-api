@@ -15,5 +15,7 @@ db.connect(function (err) {
 })
 
 app.use('/user', routes.User)
+app.use('/history', routes.History)
+
 
 app.listen(3030)
