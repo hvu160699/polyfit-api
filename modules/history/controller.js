@@ -13,17 +13,17 @@ router.get(path, (req, res) => {
 
 
 router.post("/add", (req, res) => {
-    const bmi=req.body.bmi;
-    const id_level=req.body.id_level;
-    const id_user=req.body.id_user;
-            const addHistory = "INSERT INTO `polyfit_history` (`create_at`, `bmi`, `id_level`, `id_user`) VALUES (NOW(), ?, ?, ?)"
-            con.query(addHistory, [bmi, id_level, id_user], () => {
-                con.on('error', err => {
-                    console.log("MySQL ERROR : ", err);
-                    res.json("Add error : ", err);
-                })
-                res.json("Add Success!");
-            })
+    const bmi = req.body.bmi;
+    const id_level = req.body.id_level;
+    const id_user = req.body.id_user;
+    const addHistory = "INSERT INTO `polyfit_history` (`create_at`, `bmi`, `id_level`, `id_user`) VALUES (NOW(), ?, ?, ?)"
+    con.query(addHistory, [bmi, id_level, id_user], () => {
+        con.on('error', err => {
+            console.log("MySQL ERROR : ", err);
+            res.json("Add error : ", err);
+        })
+        res.json("Add Success!");
+    })
 })
 
 
