@@ -19,7 +19,7 @@ router.post('/register', (req, res) => {
         height: req.body.height,
         bmi: req.body.bmi,
         gender: req.body.gender,
-        createAt: today
+        create_at: today
     }
 
     User.findOne({

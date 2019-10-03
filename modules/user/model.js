@@ -36,7 +36,7 @@ const User = db.sequelize.define(
         gender: {
             type: Sequelize.SMALLINT
         },
-        createAt: {
+        create_at: {
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         }
