@@ -7,4 +7,11 @@ const connection = mysql.createConnection({
     database: 'heroku_9f7e3b228eeceaf'
 })
 
+// const connection = mysql.createConnection({
+//     host: '127.0.0.1',
+//     user: 'root',
+//     password: 'root',
+//     database: 'poly_fit_database'
+// })
+
 module.exports = connection
