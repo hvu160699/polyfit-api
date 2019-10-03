@@ -21,7 +21,7 @@ const User = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
-        weigth: {
+        weight: {
             type: Sequelize.FLOAT,
             allowNull: true
         },
