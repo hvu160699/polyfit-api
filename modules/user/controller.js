@@ -1,86 +1,89 @@
-const con = require('../../config/db-connection')
-const utils = require('./utils')
 const express = require('express');
 const router = express.Router();
-const path = '/'
+const cors = require('cors')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcryptjs')
 
-router.get(path, (req, res) => {
-    con.query("SELECT * FROM `polyfit_users`", function (err, result, fields) {
-        if (err) return err;
-        res.json(result);
-    });
-})
+const User = require('./model')
+router.use(cors())
 
-router.post("/register", (req, res) => {
-    const display_name = req.body.display_name;
-    const username = req.body.username
-    const plaint_password = req.body.password;
-    const hash_data = utils.saltHashPassword(plaint_password);
-    const password = hash_data.passwordHash;
-    const salt = hash_data.salt;
-    const weight = req.body.weight;
-    const height = req.body.height;
-    const bmi = req.body.bmi;
-    const gender = req.body.gender;
+process.env.SECRET_KEY = 'secret'
 
-    con.query("SELECT * FROM `polyfit_users` WHERE username=?", [username], (err, result, fields) => {
-        con.on('error', (err) => {
-            console.log("MySQL ERROR : ", err);
-        })
-        if (result && result.length) {
-            res.json('Username already exists !!!');
-        } else {
-            const registerSQL = "INSERT INTO `polyfit_users` (`display_name`, `username`, `password`, `password_salt`, `weight`, `height`, `bmi`, `gender`, `create_at`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())"
-            con.query(registerSQL, [display_name, username, password, salt, weight, height, bmi, gender], () => {
-                con.on('error', err => {
-                    console.log("MySQL ERROR : ", err);
-                    res.json("erRegister ror : ", err);
-                })
-                res.json("Register Success!");
-            })
+router.post('/register', (req, res) => {
+    const today = new Date()
+    const userData = {
+        display_name: req.body.display_name,
+        username: req.body.username,
+        password: req.body.password,
+        weight: req.body.weight,
+        height: req.body.height,
+        bmi: req.body.bmi,
+        gender: req.body.gender,
+        createAt: today
+    }
+
+    User.findOne({
+        where: {
+            username: req.body.username
         }
     })
+        .then(user => {
+            if (!user) {
+                const hash = bcrypt.hashSync(userData.password, 10)
+                userData.password = hash
+                User.create(userData)
+                    .then(user => {
+                        let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+                            expiresIn: 1440
+                        })
+                        res.json({ token: token })
+                    })
+                    .catch(err => {
+                        res.send('error : ' + err)
+                    })
+            } else {
+                res.json({ error: "User already exists" })
+            }
+        })
+        .catch(err => {
+            res.send('error : ' + err)
+        })
 })
 
-router.get("/getByUserName/:username", (req, res) => {
-    const username = req.params.username;
-    con.query("SELECT * FROM `polyfit_users` WHERE `username`=?", username, function (err, result, fields) {
-        if (err) return err;
-        res.send(result);
-    });
-})
-
-router.post("/login", (req, res) => {
-    const login_username = req.body.username;
-    const login_password = req.body.password;
-    con.query("SELECT * FROM `polyfit_users` WHERE username=?", [login_username], (err, result, fields) => {
-        con.on('error', (err) => {
-            console.log("MySQL ERROR : ", err);
-            res.json("Login error : ", err)
-        });
-        if (result && result.length) {
-            const salt = result[0].password_salt;
-            const password = result[0].password;
-            const hashed_password = utils.checkHashPassword(login_password, salt).passwordHash;
-            if (password == hashed_password) {
-                res.end("Login success !")
-                res.end(JSON.stringify(result[0]))
-            }
-            else {
-                res.end("Wrong password !");
-            }
-        } else {
-            res.end("User doesn't exists");
+router.post('/login', (req, res) => {
+    User.findOne({
+        where: {
+            username: req.body.username
         }
-    });
+    })
+        .then(user => {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
+                let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
+                    expiresIn: 1440
+                })
+                res.json({ token: token })
+            } else {
+                res.send("User does not exist")
+            }
+        })
+        .catch(err => {
+            res.send('error : ' + err)
+        })
 })
 
-router.put(path, (req, res) => {
-    res.send("PUT user")
-})
-
-router.delete(path, (req, res) => {
-    res.send("DELETE user")
+router.get('/profile', (req, res) => {
+    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+    User.findOne({
+        where: {
+            id: decoded.id
+        }
+    })
+        .then(user => {
+            user ? res.json(user) : res.send('User does not exist')
+        })
+        .catch(err => {
+            res.send('error : ' + err)
+        })
 })
 
 module.exports = router;

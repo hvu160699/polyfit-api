@@ -1,17 +1,19 @@
-var mysql = require('mysql');
-
-const connection = mysql.createConnection({
+const Sequelize = require('sequelize');
+const db = {}
+const sequelize = new Sequelize('heroku_9f7e3b228eeceaf', 'bb89a7761eac60', '1e6644a0', {
     host: 'us-cdbr-iron-east-05.cleardb.net',
-    user: 'bb89a7761eac60',
-    password: '1e6644a0',
-    database: 'heroku_9f7e3b228eeceaf'
+    dialect: 'mysql',
+
+    pool: {
+        max: 5,
+        min: 0,
+        acquire: 30000,
+        idle: 10000
+    }
+
 })
 
-// const connection = mysql.createConnection({
-//     host: '127.0.0.1',
-//     user: 'root',
-//     password: 'root',
-//     database: 'poly_fit_database'
-// })
+db.sequelize = sequelize
+db.Sequelize = Sequelize
 
-module.exports = connection
+module.exports = db
