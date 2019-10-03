@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 const db = require('../../config/db-connection')
 
 const User = db.sequelize.define(
-    'user',
+    'polyfit_users',
     {
         id: {
             type: Sequelize.INTEGER,
