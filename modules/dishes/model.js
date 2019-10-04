@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
 const db = require('../../config/db-connection')
 
-const Level = db.sequelize.define(
-    'polyfit_level',
+const Dishes = db.sequelize.define(
+    'polyfit_dishes',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -14,28 +14,15 @@ const Level = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
-        image: {
+        image_url: {
             type: Sequelize.STRING,
-            allowNull: true
+            allowNull: true,
         },
-        description: {
-            type: Sequelize.STRING,
-            allowNull: true
-
-        },
-        id_exercises: {
+        id_meal: {
             type: Sequelize.INTEGER,
             allowNull: false
         },
-        id_diet: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        id_history: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        }
     }
 )
 
-module.exports = Level
+module.exports = Dishes

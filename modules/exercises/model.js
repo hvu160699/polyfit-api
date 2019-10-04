@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize')
 const db = require('../../config/db-connection')
+const Sequelize = require('sequelize')
 
-const Level = db.sequelize.define(
-    'polyfit_level',
+const Exercises = db.sequelize.define(
+    'polyfit_exercises',
     {
         id: {
             type: Sequelize.INTEGER,
@@ -14,28 +14,39 @@ const Level = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
-        image: {
+        introduction: {
+            type: Sequelize.FLOAT,
+            allowNull: false
+        },
+        content: {
             type: Sequelize.STRING,
             allowNull: true
         },
-        description: {
+        tips: {
             type: Sequelize.STRING,
             allowNull: true
-
         },
-        id_exercises: {
+        sets: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: true
         },
-        id_diet: {
+        reps: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: true
         },
-        id_history: {
+        video_url: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        image_url: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        id_levels: {
             type: Sequelize.INTEGER,
             allowNull: false
         }
     }
 )
 
-module.exports = Level
+module.exports = Exercises
