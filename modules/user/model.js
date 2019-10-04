@@ -34,7 +34,7 @@ const User = db.sequelize.define(
             allowNull: true
         },
         gender: {
-            type: Sequelize.SMALLINT
+            type: Sequelize.INTEGER
         },
         create_at: {
             type: Sequelize.DATE,
