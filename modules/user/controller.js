@@ -27,6 +27,7 @@ router.get('/:username', (req, res) => {
         }
     })
         .then(data => {
+            console.log(data)
             res.json(data)
         })
         .catch(err => {
