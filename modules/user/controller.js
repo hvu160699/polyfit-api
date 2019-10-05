@@ -3,11 +3,18 @@ const router = express.Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+const db = require('../../config/db-connection')
 
 const User = require('./model')
 router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
+
+router.get('/test', (req, res) => {
+    db.query('show tables').then(function (rows) {
+        console.log(JSON.stringify(rows));
+    });
+})
 
 router.post('/register', (req, res) => {
     const userData = {
@@ -16,7 +23,7 @@ router.post('/register', (req, res) => {
         password: req.body.password,
         weight: req.body.weight,
         height: req.body.height,
-        bmi: req.body.weight / ( req.body.height * 2),
+        bmi: req.body.weight / (req.body.height * 2),
         gender: req.body.gender,
     }
 

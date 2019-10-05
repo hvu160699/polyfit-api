@@ -4,7 +4,7 @@ const historyRoute = require('../modules/history/controller')
 
 const Routes = {
     User: userRoute,
-    History:historyRoute
+    History: historyRoute
 }
 
 
