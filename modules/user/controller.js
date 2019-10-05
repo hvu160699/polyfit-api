@@ -20,6 +20,20 @@ db.sequelize.getQueryInterface().showAllSchemas()
         console.log('showAllSchemas ERROR', err);
     })
 
+router.get('/:username', (req, res) => {
+    User.findAll({
+        where: {
+            userId: req.body.username
+        }
+    })
+        .then(data => {
+            res.json(data)
+        })
+        .catch(err => {
+            res.send(err)
+        })
+})
+
 router.post('/register', (req, res) => {
     const userData = {
         display_name: req.body.display_name,
