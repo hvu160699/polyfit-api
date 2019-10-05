@@ -10,10 +10,11 @@ router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-db.getQueryInterface().showAllSchemas()
+db.sequelize.getQueryInterface().showAllSchemas()
     .then((tableObj) => {
         console.log('// Tables in database', '==========================');
-        console.log(tableObj);
+        JSON.stringify(tableObj)
+        console.log(tableObj)
     })
     .catch((err) => {
         console.log('showAllSchemas ERROR', err);

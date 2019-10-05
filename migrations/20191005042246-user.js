@@ -10,15 +10,16 @@ module.exports = {
           primaryKey: true,
           autoIncrement: true
         },
-        email: {
-          type: Sequelize.STRING,
-        },
         phoneNumber: {
           type: Sequelize.STRING
         },
         username: {
           type: Sequelize.STRING,
           allowNull: false
+        },
+        isVerified: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
         },
         password: {
           type: Sequelize.STRING,
@@ -43,17 +44,9 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false
         },
-        'created_at': {
-          type: Sequelize.DATE(3),
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3)'),
-        },
-        'updated_at': {
-          type: Sequelize.DATE(3),
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP(3)'),
-        },
       }, {
-        timestamps: false
-      }
+      timestamps: false
+    }
     )
     /*
       Add altering commands here.

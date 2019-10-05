@@ -10,15 +10,16 @@ const User = db.sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        email: {
-            type: Sequelize.STRING,
-        },
         phoneNumber: {
             type: Sequelize.STRING
         },
         username: {
             type: Sequelize.STRING,
             allowNull: false
+        },
+        isVerified: {
+            type: Sequelize.BOOLEAN,
+            defaultValue: false,
         },
         password: {
             type: Sequelize.STRING,
@@ -45,7 +46,5 @@ const User = db.sequelize.define(
         }
     }
 )
-
-// User.hasMany(History, { foreignKey: 'id_user' })
 
 module.exports = User
