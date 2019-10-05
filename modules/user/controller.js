@@ -23,7 +23,7 @@ db.sequelize.getQueryInterface().showAllSchemas()
 router.get('/:username', (req, res) => {
     User.findAll({
         where: {
-            userId: req.params.username
+            username: req.params.username
         }
     })
         .then(data => {
