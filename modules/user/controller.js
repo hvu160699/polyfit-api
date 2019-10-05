@@ -10,11 +10,14 @@ router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-router.get('/test', (req, res) => {
-    db.query('show tables').then(function (rows) {
-        console.log(JSON.stringify(rows));
-    });
-})
+db.getQueryInterface().showAllSchemas()
+    .then((tableObj) => {
+        console.log('// Tables in database', '==========================');
+        console.log(tableObj);
+    })
+    .catch((err) => {
+        console.log('showAllSchemas ERROR', err);
+    })
 
 router.post('/register', (req, res) => {
     const userData = {
