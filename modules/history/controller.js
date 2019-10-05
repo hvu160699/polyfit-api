@@ -16,7 +16,7 @@ router.post("/add", (req, res) => {
     const bmi = req.body.bmi;
     const id_level = req.body.id_level;
     const id_user = req.body.id_user;
-    const addHistory = "INSERT INTO `polyfit_history` (`create_at`, `bmi`, `id_level`, `id_user`) VALUES (NOW(), ?, ?, ?)"
+    const addHistory = "INSERT INTO `polyfit_history` (`bmi`, `id_level`, `id_user`) VALUES (?, ?, ?)"
     con.query(addHistory, [bmi, id_level, id_user], () => {
         con.on('error', err => {
             console.log("MySQL ERROR : ", err);

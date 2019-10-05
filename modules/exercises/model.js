@@ -8,43 +8,40 @@ const Exercises = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
             allowNull: false
         },
         introduction: {
-            type: Sequelize.FLOAT,
-            allowNull: false
+            type: Sequelize.STRING,
         },
         content: {
             type: Sequelize.STRING,
-            allowNull: true
         },
         tips: {
             type: Sequelize.STRING,
-            allowNull: true
         },
         sets: {
             type: Sequelize.INTEGER,
-            allowNull: true
         },
         reps: {
             type: Sequelize.INTEGER,
-            allowNull: true
         },
         video_url: {
             type: Sequelize.STRING,
-            allowNull: true
         },
         image_url: {
             type: Sequelize.STRING,
-            allowNull: true
         },
-        id_levels: {
+        id_level: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            references: {
+                model: 'polyfit_level',
+                key: 'id'
+            },
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
         }
     }
 )

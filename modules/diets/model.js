@@ -8,7 +8,6 @@ const Diet = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
@@ -17,7 +16,6 @@ const Diet = db.sequelize.define(
         description: {
             type: Sequelize.STRING,
             allowNull: true
-
         },
         image_url: {
             type: Sequelize.STRING,
@@ -25,7 +23,12 @@ const Diet = db.sequelize.define(
         },
         id_level: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            references: {
+                model: 'polyfit_level',
+                key: 'id'
+            },
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
         },
     }
 )

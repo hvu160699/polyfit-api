@@ -8,7 +8,6 @@ const Level = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
@@ -21,20 +20,7 @@ const Level = db.sequelize.define(
         description: {
             type: Sequelize.STRING,
             allowNull: true
-
         },
-        id_exercises: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        id_diet: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        },
-        id_history: {
-            type: Sequelize.INTEGER,
-            allowNull: false
-        }
     }
 )
 

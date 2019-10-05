@@ -10,16 +10,14 @@ router.use(cors())
 process.env.SECRET_KEY = 'secret'
 
 router.post('/register', (req, res) => {
-    const today = new Date()
     const userData = {
         display_name: req.body.display_name,
         username: req.body.username,
         password: req.body.password,
         weight: req.body.weight,
         height: req.body.height,
-        bmi: req.body.bmi,
+        bmi: req.body.weight / ( req.body.height * 2),
         gender: req.body.gender,
-        create_at: today
     }
 
     User.findOne({

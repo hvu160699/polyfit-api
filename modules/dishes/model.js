@@ -8,7 +8,6 @@ const Dishes = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
@@ -18,9 +17,31 @@ const Dishes = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: true,
         },
-        id_meal: {
+        protein: {
+            type: Sequelize.FLOAT,
+            defaultValue: 0
+        },
+        fat: {
+            type: Sequelize.FLOAT,
+            defaultValue: 0
+        },
+        carb: {
+            type: Sequelize.FLOAT,
+            defaultValue: 0
+        },
+        calories: {
+            type: Sequelize.FLOAT,
+            defaultValue: 0
+        },
+        id_meals: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: 'polyfit_meals',
+                key: 'id'
+            },
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
         },
     }
 )

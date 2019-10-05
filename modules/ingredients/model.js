@@ -8,27 +8,15 @@ const Ingredients = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        calories: {
+        price: {
             type: Sequelize.FLOAT,
-            allowNull: false
-        },
-        cabonhydrate: {
-            type: Sequelize.FLOAT,
-            allowNull: true
-        },
-        fat: {
-            type: Sequelize.FLOAT,
-            allowNull: true
-        },
-        protein: {
-            type: Sequelize.FLOAT,
-            allowNull: true
+            allowNull: false,
+            defaultValue: 0
         },
         unit: {
             type: Sequelize.STRING,

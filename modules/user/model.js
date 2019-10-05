@@ -10,9 +10,11 @@ const User = db.sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        display_name: {
+        email: {
             type: Sequelize.STRING,
-            allowNull: false
+        },
+        phoneNumber: {
+            type: Sequelize.STRING
         },
         username: {
             type: Sequelize.STRING,
@@ -24,22 +26,22 @@ const User = db.sequelize.define(
         },
         weight: {
             type: Sequelize.FLOAT,
-            allowNull: true
+            allowNull: false
         },
         height: {
             type: Sequelize.FLOAT,
-            allowNull: true
+            allowNull: false
         },
         bmi: {
             type: Sequelize.FLOAT,
-            allowNull: true
         },
         gender: {
-            type: Sequelize.INTEGER
+            type: Sequelize.INTEGER,
+            allowNull: false
         },
-        create_at: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW
+        display_name: {
+            type: Sequelize.STRING,
+            allowNull: false
         }
     }
 )

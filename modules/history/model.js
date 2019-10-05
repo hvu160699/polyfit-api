@@ -9,23 +9,19 @@ const History = db.sequelize.define(
             primaryKey: true,
             autoIncrement: true
         },
-        create_at: {
-            type: Sequelize.DATE,
-            allowNull: false
-        },
         bmi: {
             type: Sequelize.FLOAT,
-            allowNull: false
-
-        },
-        id_level: {
-            type: Sequelize.INTEGER,
             allowNull: false
         },
         id_user: {
             type: Sequelize.INTEGER,
-            allowNull: false
-        }
+            references: {
+                model: 'polyfit_users',
+                key: 'id'
+            },
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
+        },
     }
 )
 

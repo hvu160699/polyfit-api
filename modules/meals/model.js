@@ -8,15 +8,19 @@ const Meals = db.sequelize.define(
             type: Sequelize.INTEGER,
             primaryKey: true,
             autoIncrement: true,
-            allowNull: false,
         },
         title: {
             type: Sequelize.STRING,
             allowNull: false
         },
-        id_diet: {
+        id_diets: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            references: {
+                model: 'polyfit_diets',
+                key: 'id'
+            },
+            onUpdate: 'cascade',
+            onDelete: 'cascade'
         },
     }
 )
