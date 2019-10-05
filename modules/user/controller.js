@@ -35,13 +35,14 @@ router.get('/:username', (req, res) => {
 })
 
 router.post('/register', (req, res) => {
+    let bmi = (req.body.weight / (req.body.height * 2)) * 100
     const userData = {
         display_name: req.body.display_name,
         username: req.body.username,
         password: req.body.password,
         weight: req.body.weight,
         height: req.body.height,
-        bmi: req.body.weight / (req.body.height * 2),
+        bmi: bmi.toFixed(2),
         gender: req.body.gender,
     }
 
