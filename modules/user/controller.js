@@ -3,22 +3,21 @@ const router = express.Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-const db = require('../../config/db-connection')
-
+// const db = require('../../config/db-connection')
 const User = require('./model')
 router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-db.sequelize.getQueryInterface().showAllSchemas()
-    .then((tableObj) => {
-        console.log('// Tables in database', '==========================');
-        JSON.stringify(tableObj)
-        console.log(tableObj)
-    })
-    .catch((err) => {
-        console.log('showAllSchemas ERROR', err);
-    })
+// db.sequelize.getQueryInterface().showAllSchemas()
+//     .then((tableObj) => {
+//         console.log('// Tables in database', '==========================');
+//         JSON.stringify(tableObj)
+//         console.log(tableObj)
+//     })
+//     .catch((err) => {
+//         console.log('showAllSchemas ERROR', err);
+//     })
 
 router.get('/:username', (req, res) => {
     User.findAll({
@@ -96,19 +95,19 @@ router.post('/login', (req, res) => {
         })
 })
 
-router.get('/profile', (req, res) => {
-    var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-    User.findOne({
-        where: {
-            id: decoded.id
-        }
-    })
-        .then(user => {
-            user ? res.json(user) : res.send('User does not exist')
-        })
-        .catch(err => {
-            res.send('error : ' + err)
-        })
-})
+// router.get('/profile', (req, res) => {
+//     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
+//     User.findOne({
+//         where: {
+//             id: decoded.id
+//         }
+//     })
+//         .then(user => {
+//             user ? res.json(user) : res.send('User does not exist')
+//         })
+//         .catch(err => {
+//             res.send('error : ' + err)
+//         })
+// })
 
 module.exports = router;

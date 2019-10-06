@@ -44,7 +44,7 @@ const User = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         }
-    }
+    },
 )
 
 module.exports = User
