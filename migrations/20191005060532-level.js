@@ -22,15 +22,6 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: true
         },
-        id_user: {
-          type: Sequelize.INTEGER,
-          references: {
-            model: 'polyfit_users',
-            key: 'id'
-          },
-          onUpdate: 'cascade',
-          onDelete: 'cascade'
-        },
       }
     )
     /*
