@@ -6,7 +6,9 @@ const Level = require('./model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
-    Level.findAll()
+    Level.findAll({
+        raw: true
+    })
         .then(data => {
             if (data) {
                 res.json(data)
@@ -15,7 +17,7 @@ router.get("/getAll", (req, res) => {
             }
         })
         .catch(err => {
-            res.json("Error: " + err)
+            res.json({ error: err })
         })
 })
 
@@ -34,30 +36,32 @@ router.post("/create", (req, res) => {
         .then(level => {
             if (!level) {
                 Level.create(levelData)
-                    .then(data => {
-                        res.json(data)
+                    .then(result => {
+                        res.json(result)
                         console.log("Level created success!")
                     })
                     .catch(err => {
-                        res.json('error: ' + err)
+                        res.json({ error: err })
                     })
             } else {
-                res.json({ error: "Level already exists" })
+                res.json({ error: `${req.body.title} is already exists` })
             }
         })
         .catch(err => {
-            res.json('error: ' + err)
+            res.json({ error: err })
         })
 })
 
-router.put('/update/:title', (req, res) => {
+router.put('/update', (req, res) => {
     const levelUpdate = {
+        id: req.body.id,
+        title: req.body.title,
         image: req.body.image,
         description: req.body.description,
     }
     Level.findOne({
         where: {
-            title: req.params.title
+            id: req.body.id
         }
     })
         .then(obj => {
@@ -65,17 +69,17 @@ router.put('/update/:title', (req, res) => {
                 obj.update(levelUpdate)
                 res.json("Update successful !")
             } else {
-                res.json({ error: `${req.params.title} doesn't exists` })
+                res.json({ error: `${req.body.title} doesn't exists` })
             }
         }).catch(err => {
-            res.json("Error: " + err)
+            res.json({ error: err })
         })
 })
 
-router.delete('/delete/:title', (req, res) => {
+router.delete('/delete/:id', (req, res) => {
     Level.findOne({
         where: {
-            title: req.params.title
+            id: req.params.id
         }
     }).then(data => {
         if (data) {
@@ -85,7 +89,7 @@ router.delete('/delete/:title', (req, res) => {
             res.json({ error: `${req.params.title} doesn't exists` })
         }
     }).catch(err => {
-        res.json("Error: " + err)
+        res.json({ error: err })
     })
 })
 

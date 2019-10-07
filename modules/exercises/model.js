@@ -28,6 +28,9 @@ const Exercises = db.sequelize.define(
         reps: {
             type: Sequelize.INTEGER,
         },
+        rest: {
+            type: Sequelize.INTEGER,
+        },
         video_url: {
             type: Sequelize.STRING,
         },
