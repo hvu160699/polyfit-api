@@ -11,13 +11,13 @@ router.get("/getAll", (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.json(data)
+                res.send(data)
             } else {
-                res.json({ error: "None data" })
+                res.send({ error: "None data" })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            res.send({ error: err })
         })
 })
 
