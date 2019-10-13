@@ -33,8 +33,8 @@ router.post("/create", (req, res) => {
             title: req.body.title
         }
     })
-        .then(level => {
-            if (!level) {
+        .then(obj => {
+            if (!obj) {
                 res.send({ status: 0, message: "Create success!" })
                 Level.create(levelData)
             } else {

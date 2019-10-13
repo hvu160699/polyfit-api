@@ -11,9 +11,9 @@ router.get("/getAll", (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.json(data)
+                res.send({ status: 0, message: "Success!", Response: data })
             } else {
-                res.json({ error: "None data" })
+                res.send({ status: 1, message: "None data!" })
             }
         })
         .catch(err => {
@@ -34,15 +34,10 @@ router.post("/create", (req, res) => {
     })
         .then(obj => {
             if (!obj) {
+                res.send({ status: 0, message: "Create success!" })
                 Bodyparts.create(bodypartsData)
-                    .then(result => {
-                        res.json(result)
-                    })
-                    .catch(err => {
-                        res.json({ error: err })
-                    })
             } else {
-                res.json(`${req.body.title} is already exists!`)
+                res.send({ status: 1, message: `${req.body.id} is already exists!` })
             }
         })
         .catch(err => {
@@ -63,10 +58,10 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
+                res.send({ status: 0, message: "Update success!" })
                 obj.update(bodypartsData)
-                res.json("Update successful !")
             } else {
-                res.json(`${req.body.id} doesn't exists`)
+                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
             }
         })
         .catch(err => {
@@ -80,13 +75,12 @@ router.delete('/delete/:id', (req, res) => {
             id: req.params.id
         }
     })
-        .then(obj => {
-            if (obj) {
-                obj.destroy()
-                res.json("Destroy successful!")
-            }
-            else {
-                res.json({ error: `Object ID : ${req.params.id} doesn't exists` })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Delete success!" })
+                data.destroy()
+            } else {
+                res.send({ status: 1, message: `${req.params.id} doesn't exists` })
             }
         })
         .catch(err => {
