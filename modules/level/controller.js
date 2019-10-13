@@ -11,9 +11,9 @@ router.get("/getAll", (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send(data)
+                res.send({ status: 0, message: "Success!"})
             } else {
-                res.send({ error: "None data" })
+                res.send({ status: 1, message: "None data!" })
             }
         })
         .catch(err => {
@@ -35,10 +35,10 @@ router.post("/create", (req, res) => {
     })
         .then(level => {
             if (!level) {
-                res.send({ status: 0 })
+                res.send({ status: 0, message: "Create success!" })
                 Level.create(levelData)
             } else {
-                res.send({ status: 1 })
+                res.send({ status: 1, message: `${req.body.title} is already exists!` })
             }
         })
         .catch(err => {
@@ -60,10 +60,10 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
+                res.send({ status: 0, message: "Update success!" })
                 obj.update(levelUpdate)
-                res.json("Update successful !")
             } else {
-                res.json({ error: `${req.body.title} doesn't exists` })
+                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
             }
         }).catch(err => {
             res.json({ error: err })
@@ -77,10 +77,10 @@ router.delete('/delete/:id', (req, res) => {
         }
     }).then(data => {
         if (data) {
+            res.send({ status: 0, message: "Delete success!" })
             data.destroy()
-            res.json("Destroy successful!")
         } else {
-            res.json({ error: `${req.params.id} doesn't exists` })
+            res.send({ status: 1, message: `${req.params.id} doesn't exists` })
         }
     }).catch(err => {
         res.json({ error: err })
