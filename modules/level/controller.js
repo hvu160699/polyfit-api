@@ -35,9 +35,10 @@ router.post("/create", (req, res) => {
     })
         .then(level => {
             if (!level) {
+                res.send({ status: 0 })
                 Level.create(levelData)
             } else {
-                res.json({ error: `${req.body.title} is already exists` })
+                res.send({ status: 1 })
             }
         })
         .catch(err => {
