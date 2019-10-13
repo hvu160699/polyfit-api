@@ -19,12 +19,19 @@ db.sequelize.authenticate()
     console.error('Unable to connect to the database:', err);
   });
 
-
-
 app.use('/user', routes.User)
 app.use('/history', routes.History)
 app.use('/level', routes.Level)
 app.use('/exercises', routes.Exercises)
+app.use('/history', routes.History)
+app.use('/level', routes.Level)
+app.use('/exercises', routes.Exercises)
+app.use('/diets', routes.Diets)
+app.use('/meals', routes.Meals)
+app.use('/dishes', routes.Dishes)
+app.use('/ingredients', routes.Ingredients)
+app.use('/qoutes', routes.Quotes)
+
 
 const port = process.env.PORT || 3030
 app.listen(port, function () {
