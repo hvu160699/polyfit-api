@@ -11,7 +11,7 @@ router.get("/getAll", (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Success!"})
+                res.send({ status: 0, message: "Success!", data: data })
             } else {
                 res.send({ status: 1, message: "None data!" })
             }
