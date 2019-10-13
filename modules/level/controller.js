@@ -36,13 +36,6 @@ router.post("/create", (req, res) => {
         .then(level => {
             if (!level) {
                 Level.create(levelData)
-                    .then(result => {
-                        res.json(result)
-                        console.log("Level created success!")
-                    })
-                    .catch(err => {
-                        res.json({ error: err })
-                    })
             } else {
                 res.json({ error: `${req.body.title} is already exists` })
             }
@@ -86,7 +79,7 @@ router.delete('/delete/:id', (req, res) => {
             data.destroy()
             res.json("Destroy successful!")
         } else {
-            res.json({ error: `${req.params.title} doesn't exists` })
+            res.json({ error: `${req.params.id} doesn't exists` })
         }
     }).catch(err => {
         res.json({ error: err })

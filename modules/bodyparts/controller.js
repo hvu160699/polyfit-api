@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors')
 
-const Exercises = require('./model')
+const Bodyparts = require('./model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
-    Exercises.findAll({
+    Bodyparts.findAll({
         raw: true
     })
         .then(data => {
@@ -22,29 +22,19 @@ router.get("/getAll", (req, res) => {
 })
 
 router.post("/create", (req, res) => {
-    const exercisesData = {
+    const bodypartsData = {
         title: req.body.title,
-        introduction: req.body.introduction,
-        content: req.body.content,
-        tips: req.body.tips,
-        sets: req.body.sets,
-        reps: req.body.reps,
-        rest: req.body.rest,
-        video_url: req.body.video_url,
         image_url: req.body.image_url,
-        id_level: req.body.id_level
     }
 
-    // Exercises.belongTo()
-
-    Exercises.findOne({
+    Bodyparts.findOne({
         where: {
             title: req.body.title
         }
     })
         .then(obj => {
             if (!obj) {
-                Exercises.create(exercisesData)
+                Bodyparts.create(bodypartsData)
                     .then(result => {
                         res.json(result)
                     })
@@ -61,26 +51,19 @@ router.post("/create", (req, res) => {
 })
 
 router.put('/update', (req, res) => {
-    const exercisesUpdate = {
+    const bodypartsData = {
         title: req.body.title,
-        introduction: req.body.introduction,
-        content: req.body.content,
-        tips: req.body.tips,
-        sets: req.body.sets,
-        reps: req.body.reps,
-        rest: req.body.rest,
-        video_url: req.body.video_url,
         image_url: req.body.image_url,
-        id_level: req.body.id_level
     }
-    Exercises.findOne({
+
+    Bodyparts.findOne({
         where: {
             id: req.body.id
         }
     })
         .then(obj => {
             if (obj) {
-                obj.update(exercisesUpdate)
+                obj.update(bodypartsData)
                 res.json("Update successful !")
             } else {
                 res.json(`${req.body.id} doesn't exists`)
