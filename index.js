@@ -20,9 +20,9 @@ db.sequelize.authenticate()
   });
 
 app.use('/user', routes.User)
-app.use('/level', routes.Level)
 app.use('/exercises', routes.Exercises)
 app.use('/history', routes.History)
+app.use('/bodyparts', routes.Bodyparts)
 app.use('/level', routes.Level)
 app.use('/diets', routes.Diets)
 app.use('/meals', routes.Meals)
