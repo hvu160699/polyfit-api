@@ -1,5 +1,7 @@
 const db = require('../../config/db-connection')
 const Sequelize = require('sequelize')
+const ExercisesBodyparts = require('../exercises-bodyparts/model')
+const Bodyparts = require('../bodyparts/model')
 
 const Exercises = db.sequelize.define(
     'polyfit_exercises',
@@ -46,7 +48,14 @@ const Exercises = db.sequelize.define(
             onUpdate: 'cascade',
             onDelete: 'cascade'
         }
-    }
-)
+    })
+
+Exercises.associate = (models) => {
+    Exercises.belongsToMany(models.Bodyparts, {
+        through: 'polyfit_exercises_bodyparts',
+        as: 'exBodypart',
+        foreignKey: 'id'
+    });
+}
 
 module.exports = Exercises
