@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
 const History = require('../history/model')
 
-const User = db.sequelize.define(
+const User = sequelize.define(
     'polyfit_users',
     {
         id: {
@@ -46,5 +46,8 @@ const User = db.sequelize.define(
         }
     },
 )
+
+User.hasMany(History);
+History.belongsTo(User);
 
 module.exports = User

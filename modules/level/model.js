@@ -1,7 +1,9 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
+const Excercise = require("../exercises/model");
+const Diet = require("../diets/model");
 
-const Level = db.sequelize.define(
+const Level = sequelize.define(
     'polyfit_level',
     {
         id: {
@@ -21,7 +23,14 @@ const Level = db.sequelize.define(
             type: Sequelize.STRING,
             allowNull: true
         },
+    }, {
+        freezeTableName: true
     }
 )
+
+Level.hasMany(Excercise, { as: 'Exercises'});
+Excercise.belongsTo(Level);
+Level.hasMany(Diet);
+Diet.belongsTo(Level);
 
 module.exports = Level

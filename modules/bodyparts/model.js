@@ -1,22 +1,27 @@
-const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const dataTypes = require('sequelize').DataTypes;
+const sequelize = require('../../config/db-connection');
+const Exercises = require("../exercises/model");
 
-const BodyParts = db.sequelize.define(
+const BodyParts = sequelize.define(
     'polyfit_bodyparts',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         title: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         image_url: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
+    },
+    {
+        modelName: 'bodypart',
+        underscored: true,
     }
 )
 

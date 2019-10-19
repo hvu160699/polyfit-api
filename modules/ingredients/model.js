@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
 
-const Ingredients = db.sequelize.define(
+const Ingredients = sequelize.define(
     'polyfit_ingredients',
     {
         id: {

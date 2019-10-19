@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
+const User = require("../user/model");
 
-const History = db.sequelize.define(
+const History = sequelize.define(
     'polyfit_history',
     {
         id: {
@@ -12,15 +13,6 @@ const History = db.sequelize.define(
         bmi: {
             type: Sequelize.FLOAT,
             allowNull: false
-        },
-        id_user: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'polyfit_users',
-                key: 'id'
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
         },
     }
 )

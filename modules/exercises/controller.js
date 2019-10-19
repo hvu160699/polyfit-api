@@ -3,6 +3,8 @@ const router = express.Router();
 const cors = require('cors')
 
 const Exercises = require('./model')
+const Bodyparts = require('../bodyparts/model');
+const Level = require("../level/model");
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -32,27 +34,47 @@ router.post("/create", (req, res) => {
         rest: req.body.rest,
         video_url: req.body.video_url,
         image_url: req.body.image_url,
-        id_level: req.body.id_level
     }
+    
 
-    // Exercises.belongTo()
+    const idBodypart = req.body.id_bodypart;
 
     Exercises.findOne({
         where: {
             title: req.body.title
         }
     })
-        .then(obj => {
+        .then(async obj => {
             if (!obj) {
-                res.send({ status: 0, message: "Create success!" })
-                Exercises.create(exercisesData)
+                const bodypart = await Bodyparts.findByPk(idBodypart);
+                const level = await Level.findByPk(req.body.id_level); // Find Level By Primary key
+
+                //Hàm addExercise là hàm được tạo ra bởi Sequilize khi khai báo quan hệ
+                //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
+                const createdEx = await level.addExercise(exercisesData); 
+                return createdEx.addBodypart(bodypart).then(result => {
+                    return res.send({ status: 0, message: `success` })
+                })
+
+            
+            
             } else {
                 res.send({ status: 1, message: `${req.body.title} is already exists!` })
             }
         })
         .catch(err => {
+            console.log(err)
             res.json({ error: err })
         })
+})
+
+router.get('/exDetail/:id', async (req, res) => {
+    //Lấy ra bài tập và các thông tin liên quan như level + bodypart
+    const ex = await Exercises.findOne({ where: { id: req.params.id }, include: [{
+        model: Level
+    }, { model: Bodyparts, as: 'bodyparts' }]});
+
+    res.send({ status: 0, msg: 'Thanh cong cmnr', data: ex});
 })
 
 router.put('/update', (req, res) => {

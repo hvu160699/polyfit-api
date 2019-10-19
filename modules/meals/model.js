@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
+const Dish = require("../dishes/model");
 
-const Meals = db.sequelize.define(
+const Meals = sequelize.define(
     'polyfit_meals',
     {
         id: {
@@ -24,5 +25,8 @@ const Meals = db.sequelize.define(
         },
     }
 )
+
+Meals.hasMany(Dish);
+Dish.belongsTo(Meals);
 
 module.exports = Meals

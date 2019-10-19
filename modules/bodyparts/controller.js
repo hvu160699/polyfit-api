@@ -21,27 +21,21 @@ router.get("/getAll", (req, res) => {
         })
 })
 
-router.post("/create", (req, res) => {
+router.post("/create", async (req, res) => {
     const bodypartsData = {
         title: req.body.title,
         image_url: req.body.image_url,
     }
 
-    Bodyparts.findOne({
-        where: {
-            title: req.body.title
-        }
+    // const data = await Bodyparts.create(bodypartsData)
+    // res.json({ status: 1, data });
+
+
+    Bodyparts.findOrCreate({
+        where: bodypartsData
     })
-        .then(obj => {
-            if (!obj) {
-                res.send({ status: 0, message: "Create success!" })
-                Bodyparts.create(bodypartsData)
-            } else {
-                res.send({ status: 1, message: `${req.body.id} is already exists!` })
-            }
-        })
-        .catch(err => {
-            res.json({ error: err })
+        .then(([bodypart, created]) => {
+            res.json({status: 0, msg: created});
         })
 })
 

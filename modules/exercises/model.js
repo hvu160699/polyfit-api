@@ -1,61 +1,49 @@
-const db = require('../../config/db-connection')
-const Sequelize = require('sequelize')
-const ExercisesBodyparts = require('../exercises-bodyparts/model')
-const Bodyparts = require('../bodyparts/model')
+const sequelize = require('../../config/db-connection');
+const dataTypes = require('sequelize').DataTypes;
+const Bodyparts = require('../bodyparts/model');
 
-const Exercises = db.sequelize.define(
+const Exercises = sequelize.define(
     'polyfit_exercises',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
         title: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         introduction: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
         },
         content: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
         },
         tips: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
         },
         sets: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
         },
         reps: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
         },
         rest: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
         },
         video_url: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
         },
         image_url: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
         },
-        id_level: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'polyfit_level',
-                key: 'id'
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
-        }
-    })
+    }, {
+    modelName: 'exercises',
+    underscored: true,
+});
 
-Exercises.associate = (models) => {
-    Exercises.belongsToMany(models.Bodyparts, {
-        through: 'polyfit_exercises_bodyparts',
-        as: 'exBodypart',
-        foreignKey: 'id'
-    });
-}
+Exercises.belongsToMany(Bodyparts, { through: "polyfit_excercise_bodypart", as: 'bodyparts' });
+Bodyparts.belongsToMany(Exercises, { through: "polyfit_excercise_bodypart", as: 'exercises' });
 
-module.exports = Exercises
+module.exports = Exercises;

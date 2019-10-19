@@ -1,7 +1,8 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
+const Ingredient = require("../ingredients/model");
 
-const Dishes = db.sequelize.define(
+const Dishes = sequelize.define(
     'polyfit_dishes',
     {
         id: {
@@ -33,17 +34,10 @@ const Dishes = db.sequelize.define(
             type: Sequelize.FLOAT,
             defaultValue: 0
         },
-        id_meals: {
-            type: Sequelize.INTEGER,
-            allowNull: false,
-            references: {
-                model: 'polyfit_meals',
-                key: 'id'
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
-        },
     }
 )
+
+Dishes.belongsToMany(Ingredient, { through: 'polyfit_dishes_ingredients'});
+Ingredient.belongsToMany(Dishes, { through: 'polyfit_dishes_ingredients'});
 
 module.exports = Dishes

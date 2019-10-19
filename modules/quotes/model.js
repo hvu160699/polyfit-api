@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
-const db = require('../../config/db-connection')
+const sequelize = require('../../config/db-connection')
 
-const Quotes = db.sequelize.define(
+const Quotes = sequelize.define(
     'polyfit_quotes',
     {
         id: {
