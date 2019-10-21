@@ -25,14 +25,6 @@ app.use('/qoutes', routes.Quotes)
 
 const port = process.env.PORT || 3030
 
-sequelize.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch(err => {
-    console.error('Unable to connect to the database:', err);
-  });
-
 sequelize.sync({ force: true }).then(result => {
   app.listen(port, function () {
     console.log("Listening on " + port)

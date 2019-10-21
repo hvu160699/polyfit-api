@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    // return queryInterface.dropAllTables(); // Unlock to drop all tables
+    return queryInterface.dropAllTables(); // Unlock to drop all tables
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
