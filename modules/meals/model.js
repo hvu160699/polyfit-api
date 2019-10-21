@@ -14,15 +14,6 @@ const Meals = sequelize.define(
             type: Sequelize.STRING,
             allowNull: false
         },
-        id_diets: {
-            type: Sequelize.INTEGER,
-            references: {
-                model: 'polyfit_diets',
-                key: 'id'
-            },
-            onUpdate: 'cascade',
-            onDelete: 'cascade'
-        },
     }
 )
 

@@ -74,7 +74,7 @@ router.get('/exDetail/:id', async (req, res) => {
         model: Level
     }, { model: Bodyparts, as: 'bodyparts' }]});
 
-    res.send({ status: 0, msg: 'Thanh cong cmnr', data: ex});
+    res.send({ status: 0, message: 'Thành công ( Phú )', data: ex});
 })
 
 router.put('/update', (req, res) => {

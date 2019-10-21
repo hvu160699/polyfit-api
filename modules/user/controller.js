@@ -9,16 +9,6 @@ router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-// db.sequelize.getQueryInterface().showAllSchemas()
-//     .then((tableObj) => {
-//         console.log('// Tables in database', '==========================');
-//         JSON.stringify(tableObj)
-//         console.log(tableObj)
-//     })
-//     .catch((err) => {
-//         console.log('showAllSchemas ERROR', err);
-//     })
-
 router.get('/:username', (req, res) => {
     User.findAll({
         where: {
@@ -60,13 +50,13 @@ router.post('/register', (req, res) => {
                         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                             expiresIn: 1440
                         })
-                        res.json({ token: token })
+                        res.send({ status: 0, message: "Success!", Response: token })
                     })
                     .catch(err => {
-                        res.send('error : ' + err)
+                        res.send({ status: 1, message: "Failure!" })
                     })
             } else {
-                res.json({ error: "User already exists" })
+                res.json({ status: 2, message: "User already exists!" })
             }
         })
         .catch(err => {
@@ -85,13 +75,13 @@ router.post('/login', (req, res) => {
                 let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                     expiresIn: 1440
                 })
-                res.json({ token: token })
+                res.send({ status: 0, message: "Success!", Response: token })
             } else {
-                res.send("User does not exist")
+                res.send({ status: 1, message: "Wrong password!" })
             }
         })
         .catch(err => {
-            res.send('error : ' + err)
+            res.send({ status: 2, message: "User doesn't exists!" })
         })
 })
 
