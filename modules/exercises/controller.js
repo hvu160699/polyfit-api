@@ -35,7 +35,7 @@ router.post("/create", (req, res) => {
         video_url: req.body.video_url,
         image_url: req.body.image_url,
     }
-    
+
     const idBodypart = req.body.id_bodypart;
 
     Exercises.findOne({
@@ -48,32 +48,32 @@ router.post("/create", (req, res) => {
                 const bodypart = await Bodyparts.findByPk(idBodypart);
                 const level = await Level.findByPk(req.body.id_level); // Find Level By Primary key
 
+                console.log(req.body.id_level, req.body.id_bodypart)
                 //Hàm addExercise là hàm được tạo ra bởi Sequilize khi khai báo quan hệ
                 //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
-                const createdEx = await level.addExercise(exercisesData); 
+                const createdEx = await level.addExercise(exercisesData);
                 return createdEx.addBodypart(bodypart).then(result => {
-                    return res.send({ status: 0, message: `success` })
+                    return res.send({ status: 0, message: result })
                 })
-
-            
-            
             } else {
                 res.send({ status: 1, message: `${req.body.title} is already exists!` })
             }
         })
         .catch(err => {
             console.log(err)
-            res.json({ error: err })
+            res.send({ error: err })
         })
 })
 
 router.get('/exDetail/:id', async (req, res) => {
     //Lấy ra bài tập và các thông tin liên quan như level + bodypart
-    const ex = await Exercises.findOne({ where: { id: req.params.id }, include: [{
-        model: Level
-    }, { model: Bodyparts, as: 'bodyparts' }]});
+    const ex = await Exercises.findOne({
+        where: { id: req.params.id }, include: [{
+            model: Level
+        }, { model: Bodyparts, as: 'bodyparts' }]
+    });
 
-    res.send({ status: 0, message: 'Thành công ( Phú )', data: ex});
+    res.send({ status: 0, message: 'Thành công ( Phú )', data: ex });
 })
 
 router.put('/update', (req, res) => {
@@ -87,7 +87,6 @@ router.put('/update', (req, res) => {
         rest: req.body.rest,
         video_url: req.body.video_url,
         image_url: req.body.image_url,
-        id_level: req.body.id_level
     }
     Exercises.findOne({
         where: {
