@@ -23,12 +23,10 @@ const Level = sequelize.define(
             type: Sequelize.STRING,
             allowNull: true
         },
-    }, {
-        freezeTableName: true
     }
 )
 
-Level.hasMany(Excercise, { as: 'Exercises'});
+Level.hasMany(Excercise, { as: 'Exercises' });
 Excercise.belongsTo(Level);
 Level.hasMany(Diet);
 Diet.belongsTo(Level);

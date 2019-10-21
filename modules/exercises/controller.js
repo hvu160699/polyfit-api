@@ -36,7 +36,6 @@ router.post("/create", (req, res) => {
         image_url: req.body.image_url,
     }
     
-
     const idBodypart = req.body.id_bodypart;
 
     Exercises.findOne({
