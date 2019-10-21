@@ -33,9 +33,9 @@ const port = process.env.PORT || 3030
 //   console.log(err)
 // })
 
-// app.listen(port, function () {
-//   console.log("Listening on " + port)
-// });
+app.listen(port, function () {
+  console.log("Listening on " + port)
+});
 
 sequelize.authenticate()
   .then(() => {
