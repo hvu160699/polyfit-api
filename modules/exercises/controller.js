@@ -52,7 +52,7 @@ router.post("/create", (req, res) => {
                 //Hàm addExercise là hàm được tạo ra bởi Sequilize khi khai báo quan hệ
                 //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
                 const createdEx = await level.addExercise(exercisesData);
-                return createdEx.addBodypart(bodypart).then(result => {
+                return createdEx.addBodyparts(bodypart).then(result => {
                     return res.send({ status: 0, message: result })
                 })
             } else {
