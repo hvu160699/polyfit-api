@@ -1,20 +1,20 @@
-const Sequelize = require('sequelize')
+const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 
 const Quotes = sequelize.define(
     'polyfit_quotes',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
         title: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         image_url: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: true
         },
     }

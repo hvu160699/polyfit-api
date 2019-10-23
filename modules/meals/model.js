@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 const Dish = require("../dishes/model");
 
@@ -6,12 +6,12 @@ const Meals = sequelize.define(
     'polyfit_meals',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
         title: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
     }

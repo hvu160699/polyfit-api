@@ -38,12 +38,10 @@ const Exercises = sequelize.define(
         image_url: {
             type: dataTypes.STRING,
         },
-    }, {
-    modelName: 'exercises',
-    underscored: true,
-});
+    });
 
-Exercises.belongsToMany(Bodyparts, { through: "polyfit_excercise_bodypart", as: 'bodyparts' });
-Bodyparts.belongsToMany(Exercises, { through: "polyfit_excercise_bodypart", as: 'exercises' });
+Exercises.belongsToMany(Bodyparts, { as: "bodyparts", through: "polyfit_exercises_bodyparts" });
+Bodyparts.belongsToMany(Exercises, { as: "exercises", through: "polyfit_exercises_bodyparts" });
+
 
 module.exports = Exercises;

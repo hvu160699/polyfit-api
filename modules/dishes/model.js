@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 const Ingredient = require("../ingredients/model");
 
@@ -6,34 +6,38 @@ const Dishes = sequelize.define(
     'polyfit_dishes',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true,
         },
         title: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         image_url: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: true,
         },
         protein: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             defaultValue: 0
         },
         fat: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             defaultValue: 0
         },
         carb: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             defaultValue: 0
         },
         calories: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             defaultValue: 0
         },
+    },
+    {
+        modelName: 'dishes',
+        underscored: true
     }
 )
 

@@ -1,8 +1,7 @@
 const dataTypes = require('sequelize').DataTypes;
 const sequelize = require('../../config/db-connection');
-const Exercises = require("../exercises/model");
 
-const BodyParts = sequelize.define(
+const Bodyparts = sequelize.define(
     'polyfit_bodyparts',
     {
         id: {
@@ -19,10 +18,6 @@ const BodyParts = sequelize.define(
             allowNull: false
         },
     },
-    {
-        modelName: 'bodypart',
-        underscored: true,
-    }
 )
 
-module.exports = BodyParts
+module.exports = Bodyparts

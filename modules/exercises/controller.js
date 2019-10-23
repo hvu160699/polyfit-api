@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors')
 
+const db = require('../../config/db-connection')
+
 const Exercises = require('./model')
 const Bodyparts = require('../bodyparts/model');
 const Level = require("../level/model");
@@ -36,8 +38,6 @@ router.post("/create", (req, res) => {
         image_url: req.body.image_url,
     }
 
-    const idBodypart = req.body.id_bodypart;
-
     Exercises.findOne({
         where: {
             title: req.body.title
@@ -45,18 +45,20 @@ router.post("/create", (req, res) => {
     })
         .then(async obj => {
             if (!obj) {
-                const bodypart = await Bodyparts.findByPk(idBodypart);
-                const level = await Level.findByPk(req.body.id_level); // Find Level By Primary key
-
-                console.log(req.body.id_level, req.body.id_bodypart)
+                const bodypart = await Bodyparts.findByPk(req.body.id_bodyparts);
+                const level = await Level.findByPk(req.body.id_level) // Find Level By Primary key
                 //Hàm addExercise là hàm được tạo ra bởi Sequilize khi khai báo quan hệ
                 //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
-                const createdEx = await level.addExercise(exercisesData);
-                return createdEx.addBodyparts(bodypart).then(result => {
-                    return res.send({ status: 0, message: result })
-                })
+
+                const createdEx = await Exercises.create(exercisesData);
+                level.addExercise(createdEx).then(async result => {
+                    await bodypart.addExercise(createdEx);
+                }).catch(err => {
+                    console.log(err);
+                });
+
             } else {
-                res.send({ status: 1, message: `${req.body.title} is already exists!` })
+                res.send({ status: 1, message: `${obj.title} is already exists!` })
             }
         })
         .catch(err => {

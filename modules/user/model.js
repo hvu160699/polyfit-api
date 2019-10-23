@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 const History = require('../history/model')
 
@@ -6,45 +6,45 @@ const User = sequelize.define(
     'polyfit_users',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         phoneNumber: {
-            type: Sequelize.STRING
+            type: dataTypes.STRING
         },
         username: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         isVerified: {
-            type: Sequelize.BOOLEAN,
+            type: dataTypes.BOOLEAN,
             defaultValue: false,
         },
         password: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         },
         weight: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             allowNull: false
         },
         height: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             allowNull: false
         },
         bmi: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
         },
         gender: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             allowNull: false
         },
         display_name: {
-            type: Sequelize.STRING,
+            type: dataTypes.STRING,
             allowNull: false
         }
-    },
+    }
 )
 
 User.hasMany(History);

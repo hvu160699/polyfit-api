@@ -4,7 +4,6 @@ const sequelize = new Sequelize('heroku_9f7e3b228eeceaf', 'bb89a7761eac60', '1e6
     host: 'us-cdbr-iron-east-05.cleardb.net',
     dialect: 'mysql',
     define: {
-        timestamps: false,
         freezeTableName: true,
     },
     pool: {

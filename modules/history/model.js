@@ -1,4 +1,4 @@
-const Sequelize = require('sequelize')
+const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 const User = require("../user/model");
 
@@ -6,12 +6,12 @@ const History = sequelize.define(
     'polyfit_history',
     {
         id: {
-            type: Sequelize.INTEGER,
+            type: dataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
         bmi: {
-            type: Sequelize.FLOAT,
+            type: dataTypes.FLOAT,
             allowNull: false
         },
     }
