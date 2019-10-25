@@ -27,17 +27,14 @@ router.post("/create", (req, res) => {
         image_url: req.body.image_url,
     }
 
-    Quotes.findOne({
-        where: {
-            title: req.body.title
-        }
+    Quotes.findOrCreate({
+        where: quotesData
     })
-        .then(obj => {
-            if (!obj) {
-                res.send({ status: 0, message: "Create success!" })
-                Quotes.create(quotesData)
+        .then(([quotes, created]) => {
+            if (created) {
+                res.send({ status: 0, message: `Create success!` });
             } else {
-                res.send({ status: 1, message: `${req.body.title} is already exists!` })
+                res.send({ status: 1, message: `${quotes.title} is already exists!` })
             }
         })
         .catch(err => {
