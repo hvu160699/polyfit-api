@@ -35,13 +35,9 @@ const Dishes = sequelize.define(
             defaultValue: 0
         },
     },
-    {
-        modelName: 'dishes',
-        underscored: true
-    }
 )
 
-Dishes.belongsToMany(Ingredient, { through: 'polyfit_dishes_ingredients', as: 'ingredients' });
-Ingredient.belongsToMany(Dishes, { through: 'polyfit_dishes_ingredients', as: 'dishes' });
+Dishes.belongsToMany(Ingredient, { as: 'ingredients', through: 'polyfit_dishes_ingredients' });
+Ingredient.belongsToMany(Dishes, { as: 'dishes', through: 'polyfit_dishes_ingredients' });
 
 module.exports = Dishes

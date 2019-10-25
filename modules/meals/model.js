@@ -1,6 +1,6 @@
 const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
-const Dish = require("../dishes/model");
+const Dishes = require("../dishes/model");
 
 const Meals = sequelize.define(
     'polyfit_meals',
@@ -14,10 +14,10 @@ const Meals = sequelize.define(
             type: dataTypes.STRING,
             allowNull: false
         },
-    }
+    },
 )
 
-Meals.hasMany(Dish);
-Dish.belongsTo(Meals);
+Meals.hasMany(Dishes);
+Dishes.belongsTo(Meals);
 
 module.exports = Meals

@@ -51,8 +51,12 @@ router.post("/create", (req, res) => {
                 //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
 
                 const createdEx = await Exercises.create(exercisesData);
-                level.addExercise(createdEx).then(async result => {
-                    await bodypart.addExercise(createdEx);
+                level.addExercise(createdEx).then(result => {
+                    if (result)
+                        bodypart.addExercise(createdEx).then(data => {
+                            if (data)
+                                res.send({ status: 0, message: `Create success!` })
+                        })
                 }).catch(err => {
                     console.log(err);
                 });
@@ -89,6 +93,8 @@ router.put('/update', (req, res) => {
         rest: req.body.rest,
         video_url: req.body.video_url,
         image_url: req.body.image_url,
+        id_bodyparts: req.body.id_bodyparts,
+        id_level: req.body.id_level
     }
     Exercises.findOne({
         where: {

@@ -27,15 +27,15 @@ router.post("/create", async (req, res) => {
         image_url: req.body.image_url,
     }
 
-    // const data = await Bodyparts.create(bodypartsData)
-    // res.json({ status: 1, data });
-
-
     Bodyparts.findOrCreate({
         where: bodypartsData
     })
         .then(([bodypart, created]) => {
-            res.json({status: 0, msg: created});
+            if (created) {
+                res.send({ status: 0, message: `Create success!` });
+            } else {
+                res.send({ status: 1, message: `${bodypart.title} is already exists!`})
+            }
         })
 })
 

@@ -24,27 +24,37 @@ router.get("/getAll", (req, res) => {
 router.post("/create", (req, res) => {
     const ingredientsData = {
         title: req.body.title,
-        description: req.body.description,
         price: req.body.price,
         unit: req.body.unit
     }
 
-    Ingredients.findOne({
-        where: {
-            title: req.body.title
+    Ingredients.findOrCreate({
+        where: ingredientsData
+    }).then(([ingredients, created]) => {
+        if (created) {
+            res.send({ status: 0, message: `Create success!` });
+        } else {
+            res.send({ status: 1, message: `${ingredients.title} is already exists!` })
         }
     })
-        .then(obj => {
-            if (!obj) {
-                res.send({ status: 0, message: "Create success!" })
-                Ingredients.create(ingredientsData)
-            } else {
-                res.send({ status: 1, message: `${req.body.title} is already exists!` })
-            }
-        })
-        .catch(err => {
-            res.json({ error: err })
-        })
+
+
+    // Ingredients.findOne({
+    //     where: {
+    //         title: req.body.title
+    //     }
+    // })
+    //     .then(obj => {
+    //         if (!obj) {
+    //             res.send({ status: 0, message: "Create success!" })
+    //             Ingredients.create(ingredientsData)
+    //         } else {
+    //             res.send({ status: 1, message: `${req.body.title} is already exists!` })
+    //         }
+    //     })
+    //     .catch(err => {
+    //         res.json({ error: err })
+    //     })
 })
 
 router.put('/update', (req, res) => {

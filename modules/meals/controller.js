@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require('cors')
 
 const Meals = require('./model')
+const Diets = require('../diets/model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -24,7 +25,6 @@ router.get("/getAll", (req, res) => {
 router.post("/create", (req, res) => {
     const mealsData = {
         title: req.body.title,
-        id_diets: req.body.id_diets
     }
 
     Meals.findOne({
@@ -32,16 +32,20 @@ router.post("/create", (req, res) => {
             title: req.body.title
         }
     })
-        .then(obj => {
+        .then(async obj => {
             if (!obj) {
-                res.send({ status: 0, message: "Create success!" })
-                Meals.create(mealsData)
+                const diets = await Diets.findByPk(req.body.id_diets)
+                diets.createPolyfit_meal(mealsData).then(result => {
+                    res.send({ status: 0, message: `Create success!` })
+                }).catch(err => {
+                    console.log(err);
+                })
             } else {
-                res.send({ status: 1, message: `${req.body.title} is already exists!` })
+                res.send({ status: 1, message: `${obj.title} is already exists!` })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            res.send({ error: err })
         })
 })
 
