@@ -58,7 +58,7 @@ router.put('/update', (req, res) => {
 })
 
 router.delete('/delete/:id', (req, res) => {
-    Exercises.findOne({
+    Bodyparts.findOne({
         where: {
             id: req.params.id
         }
