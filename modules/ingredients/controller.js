@@ -6,9 +6,7 @@ const Ingredients = require('./model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
-    Ingredients.findAll({
-        raw: true
-    })
+    Ingredients.findAll()
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: "Success!", Response: data })
@@ -24,8 +22,6 @@ router.get("/getAll", (req, res) => {
 router.post("/create", (req, res) => {
     const ingredientsData = {
         title: req.body.title,
-        price: req.body.price,
-        unit: req.body.unit,
         image_url: req.body.image_url
     }
 

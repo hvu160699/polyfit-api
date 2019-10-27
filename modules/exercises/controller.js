@@ -70,8 +70,7 @@ router.post("/create", (req, res) => {
             }
         })
         .catch(err => {
-            console.log(err)
-            res.send({ error: err })
+            throw new Error(err)
         })
 })
 

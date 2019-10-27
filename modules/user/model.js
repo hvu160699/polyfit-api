@@ -57,4 +57,6 @@ History.belongsTo(User);
 User.hasMany(Routine, { as: 'Routine' })
 Routine.belongsTo(User)
 
+// User.sync()
+
 module.exports = User

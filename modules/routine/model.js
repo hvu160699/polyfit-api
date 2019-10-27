@@ -1,5 +1,6 @@
 const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
+const User = require('../user/model')
 
 const Routine = sequelize.define(
     'polyfit_routine',
@@ -14,15 +15,15 @@ const Routine = sequelize.define(
             allowNull: false,
             defaultValue: 0
         },
-        time_pratice: {
+        time_practise: {
             type: dataTypes.STRING,
             allowNull: false,
-            defaultValue: null,
+            defaultValue: "",
         },
         calories_consumed: {
             type: dataTypes.STRING,
             allowNull: false,
-            defaultValue: null,
+            defaultValue: "",
         }
     }
 )

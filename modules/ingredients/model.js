@@ -13,15 +13,6 @@ const Ingredients = sequelize.define(
             type: dataTypes.STRING,
             allowNull: false
         },
-        price: {
-            type: dataTypes.FLOAT,
-            allowNull: false,
-            defaultValue: 0
-        },
-        unit: {
-            type: dataTypes.STRING,
-            allowNull: true
-        },
         image_url: {
             type: dataTypes.STRING,
         }
