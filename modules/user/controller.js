@@ -64,7 +64,7 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    User.find({
+    User.findOne({
         where: {
             username: req.body.username
         }
