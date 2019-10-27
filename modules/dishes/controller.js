@@ -39,16 +39,22 @@ router.post("/create", (req, res) => {
         }
     })
         .then(async obj => {
+            let ingredientsArr = req.body.ingredientsArr
             if (!obj) {
                 const meals = await Meals.findByPk(req.body.id_meals)
-                const ingredients = await Ingredients.findByPk(req.body.id_ingredients)
+
+                const ingredientsData = ingredientsArr.map(item => {
+                    return Ingredients.findByPk(item)
+                })
 
                 const dishes = await Dishes.create(dishesData)
 
-                meals.addPolyfit_dishes(dishes).then(result => {
+                meals.addDishes(dishes).then(result => {
                     if (result)
-                        ingredients.addDishes(dishes).then(data => {
-                            if (data) res.send({ status: 0, message: "Create success!" })
+                        Promise.all(ingredientsData).then(data => {
+                            dishes.setIngredients(data).then(() => {
+                                res.send({ status: 0, message: "Create success!" })
+                            })
                         })
                 })
 
@@ -57,22 +63,11 @@ router.post("/create", (req, res) => {
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error(err)
         })
 })
 
 router.put('/update', (req, res) => {
-    const dishesUpdate = {
-        id: req.body.id,
-        title: req.body.title,
-        image_url: req.body.image_url,
-        protein: req.body.protein,
-        fat: req.body.fat,
-        carb: req.body.carb,
-        calories: req.body.calories,
-        id_meals: req.body.id_meals
-    }
-
     Dishes.findOne({
         where: {
             id: req.body.id
@@ -80,13 +75,13 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                res.send({ status: 0, message: "Update success!" })
-                obj.update(dishesUpdate)
+                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
             } else {
-                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
+                res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
-        }).catch(err => {
-            res.json({ error: err })
+        })
+        .catch(err => {
+            throw new Error("Failed to update!")
         })
 })
 
@@ -95,16 +90,17 @@ router.delete('/delete/:id', (req, res) => {
         where: {
             id: req.params.id
         }
-    }).then(data => {
-        if (data) {
-            res.send({ status: 0, message: "Delete success!" })
-            data.destroy()
-        } else {
-            res.send({ status: 1, message: `${req.params.id} doesn't exists` })
-        }
-    }).catch(err => {
-        res.json({ error: err })
     })
+        .then(data => {
+            if (data) {
+                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
+            } else {
+                res.send({ status: 1, message: `${req.params.id} doesn't exists` })
+            }
+        })
+        .catch(err => {
+            throw new Error("Failed to delete!")
+        })
 })
 
 module.exports = router

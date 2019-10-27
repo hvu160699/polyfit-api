@@ -83,19 +83,6 @@ router.get('/exDetail/:id', async (req, res) => {
 })
 
 router.put('/update', (req, res) => {
-    const exercisesUpdate = {
-        title: req.body.title,
-        introduction: req.body.introduction,
-        content: req.body.content,
-        tips: req.body.tips,
-        sets: req.body.sets,
-        reps: req.body.reps,
-        rest: req.body.rest,
-        video_url: req.body.video_url,
-        image_url: req.body.image_url,
-        id_bodyparts: req.body.id_bodyparts,
-        id_level: req.body.id_level
-    }
     Exercises.findOne({
         where: {
             id: req.body.id
@@ -103,14 +90,13 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                res.send({ status: 0, message: "Update success!" })
-                obj.update(exercisesUpdate)
+                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
             } else {
-                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
+                res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error("Failed to update!")
         })
 })
 
@@ -122,14 +108,13 @@ router.delete('/delete/:id', (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Delete success!" })
-                data.destroy()
+                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
             } else {
                 res.send({ status: 1, message: `${req.params.id} doesn't exists` })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error("Failed to delete!")
         })
 })
 

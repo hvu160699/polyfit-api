@@ -43,12 +43,6 @@ router.post("/create", (req, res) => {
 })
 
 router.put('/update', (req, res) => {
-    const quotesUpdate = {
-        id: req.body.id,
-        title: req.body.title,
-        image_url: req.body.image_url,
-    }
-
     Quotes.findOne({
         where: {
             id: req.body.id
@@ -56,14 +50,15 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                res.send({ status: 0, message: "Update success!" })
-                obj.update(quotesUpdate)
+                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
             } else {
-                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
+                res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
-        }).catch(err => {
-            res.json({ error: err })
         })
+        .catch(err => {
+            throw new Error("Failed to update!")
+        })
+
 })
 
 router.delete('/delete/:id', (req, res) => {
@@ -71,16 +66,17 @@ router.delete('/delete/:id', (req, res) => {
         where: {
             id: req.params.id
         }
-    }).then(data => {
-        if (data) {
-            res.send({ status: 0, message: "Delete success!" })
-            data.destroy()
-        } else {
-            res.send({ status: 1, message: `${req.params.id} doesn't exists` })
-        }
-    }).catch(err => {
-        res.json({ error: err })
     })
+        .then(data => {
+            if (data) {
+                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
+            } else {
+                res.send({ status: 1, message: `${req.params.id} doesn't exists` })
+            }
+        })
+        .catch(err => {
+            throw new Error("Failed to delete!")
+        })
 })
 
 module.exports = router

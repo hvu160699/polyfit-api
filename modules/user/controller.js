@@ -9,17 +9,19 @@ router.use(cors())
 
 process.env.SECRET_KEY = 'secret'
 
-router.get('/:username', (req, res) => {
+router.get("/getAllUsers", (req, res) => {
     User.findAll({
-        where: {
-            username: req.params.username
-        }
+        raw: true
     })
         .then(data => {
-            res.send(data)
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: "None data!" })
+            }
         })
         .catch(err => {
-            res.send(err)
+            res.send({ error: err })
         })
 })
 
@@ -87,19 +89,22 @@ router.post('/login', (req, res) => {
         })
 })
 
-// router.get('/profile', (req, res) => {
-//     var decoded = jwt.verify(req.headers['authorization'], process.env.SECRET_KEY)
-//     User.findOne({
-//         where: {
-//             id: decoded.id
-//         }
-//     })
-//         .then(user => {
-//             user ? res.json(user) : res.send('User does not exist')
-//         })
-//         .catch(err => {
-//             res.send('error : ' + err)
-//         })
-// })
+router.post('/update', (req, res) => {
+    User.findOne({
+        where: {
+            id: req.body.id
+        }
+    })
+        .then(obj => {
+            if (obj) {
+                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
+            } else {
+                res.send({ status: 1, message: `${obj.id} doesn't exists` })
+            }
+        })
+        .catch(err => {
+            throw new Error("Failed to update!")
+        })
+})
 
 module.exports = router;

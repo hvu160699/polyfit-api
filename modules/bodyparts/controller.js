@@ -34,17 +34,12 @@ router.post("/create", async (req, res) => {
             if (created) {
                 res.send({ status: 0, message: `Create success!` });
             } else {
-                res.send({ status: 1, message: `${bodypart.title} is already exists!`})
+                res.send({ status: 1, message: `${bodypart.title} is already exists!` })
             }
         })
 })
 
 router.put('/update', (req, res) => {
-    const bodypartsData = {
-        title: req.body.title,
-        image_url: req.body.image_url,
-    }
-
     Bodyparts.findOne({
         where: {
             id: req.body.id
@@ -52,14 +47,13 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                res.send({ status: 0, message: "Update success!" })
-                obj.update(bodypartsData)
+                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
             } else {
-                res.send({ status: 1, message: `${req.body.id} doesn't exists` })
+                res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error("Failed to update!")
         })
 })
 
@@ -71,14 +65,13 @@ router.delete('/delete/:id', (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Delete success!" })
-                data.destroy()
+                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
             } else {
                 res.send({ status: 1, message: `${req.params.id} doesn't exists` })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error("Failed to delete!")
         })
 })
 
