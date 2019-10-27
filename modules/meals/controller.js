@@ -29,7 +29,8 @@ router.post("/create", (req, res) => {
 
     Meals.findOne({
         where: {
-            title: req.body.title
+            title: req.body.title,
+            image_url: req.body.image_url
         }
     })
         .then(async obj => {
@@ -53,6 +54,7 @@ router.put('/update', (req, res) => {
     const mealsUpdate = {
         id: req.body.id,
         title: req.body.title,
+        image_url: req.body.image_url,
         id_diets: req.body.id_diets
     }
     Meals.findOne({

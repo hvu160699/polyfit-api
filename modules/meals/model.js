@@ -14,6 +14,9 @@ const Meals = sequelize.define(
             type: dataTypes.STRING,
             allowNull: false
         },
+        image_url: {
+            type: dataTypes.STRING,
+        }
     },
 )
 

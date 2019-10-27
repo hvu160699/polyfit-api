@@ -16,8 +16,7 @@ router.get('/:username', (req, res) => {
         }
     })
         .then(data => {
-            console.log(data)
-            res.json(data)
+            res.send(data)
         })
         .catch(err => {
             res.send(err)
@@ -65,7 +64,7 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-    User.findOne({
+    User.find({
         where: {
             username: req.body.username
         }
@@ -75,7 +74,10 @@ router.post('/login', (req, res) => {
                 let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                     expiresIn: 1440
                 })
-                res.send({ status: 0, message: "Success!", Response: token })
+
+                user.update({ isOnline: true }).then(() => {
+                    res.send({ status: 0, message: "Success!", Response: token })
+                })
             } else {
                 res.send({ status: 1, message: "Wrong password!" })
             }

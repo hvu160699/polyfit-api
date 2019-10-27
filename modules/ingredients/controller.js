@@ -25,7 +25,8 @@ router.post("/create", (req, res) => {
     const ingredientsData = {
         title: req.body.title,
         price: req.body.price,
-        unit: req.body.unit
+        unit: req.body.unit,
+        image_url: req.body.image_url
     }
 
     Ingredients.findOrCreate({

@@ -21,6 +21,9 @@ const Ingredients = sequelize.define(
         unit: {
             type: dataTypes.STRING,
             allowNull: true
+        },
+        image_url: {
+            type: dataTypes.STRING,
         }
     }
 )

@@ -21,6 +21,10 @@ const User = sequelize.define(
             type: dataTypes.BOOLEAN,
             defaultValue: false,
         },
+        isOnline: {
+            type: dataTypes.BOOLEAN,
+            defaultValue: false,
+        },
         password: {
             type: dataTypes.STRING,
             allowNull: false
