@@ -46,6 +46,7 @@ router.post("/create", (req, res) => {
         fat: req.body.fat,
         carb: req.body.carb,
         calories: req.body.calories,
+        description: req.body.description
     }
 
     Dishes.findOne({
