@@ -1,6 +1,7 @@
 const dataTypes = require('sequelize').DataTypes
 const sequelize = require('../../config/db-connection')
 const History = require('../history/model')
+const Routine = require('../routine/model')
 
 const User = sequelize.define(
     'polyfit_users',
@@ -51,7 +52,9 @@ const User = sequelize.define(
     }
 )
 
-User.hasMany(History);
+User.hasMany(History, { as: 'History' })
 History.belongsTo(User);
+User.hasMany(Routine, { as: 'Routine' })
+Routine.belongsTo(User)
 
 module.exports = User

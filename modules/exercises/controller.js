@@ -2,8 +2,6 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors')
 
-const db = require('../../config/db-connection')
-
 const Exercises = require('./model')
 const Bodyparts = require('../bodyparts/model');
 const Level = require("../level/model");
@@ -11,7 +9,10 @@ router.use(cors())
 
 router.get("/getAll", (req, res) => {
     Exercises.findAll({
-        raw: true
+        include: [
+            { model: Bodyparts, as: 'bodyparts' },
+            { model: Level }
+        ]
     })
         .then(data => {
             if (data) {
@@ -44,18 +45,21 @@ router.post("/create", (req, res) => {
         }
     })
         .then(async obj => {
+            let bodypartsArr = req.body.bodypartsArr
             if (!obj) {
-                const bodypart = await Bodyparts.findByPk(req.body.id_bodyparts);
-                const level = await Level.findByPk(req.body.id_level) // Find Level By Primary key
-                //Hàm addExercise là hàm được tạo ra bởi Sequilize khi khai báo quan hệ
-                //https://stackoverflow.com/questions/36265795/sequelize-list-of-functions-on-the-object
+                const level = await Level.findByPk(req.body.id_level)
+                const exercises = await Exercises.create(exercisesData);
 
-                const createdEx = await Exercises.create(exercisesData);
-                level.addExercise(createdEx).then(result => {
+                const bodypartsData = bodypartsArr.map(item => {
+                    return Bodyparts.findByPk(item)
+                })
+
+                level.addExercise(exercises).then(result => {
                     if (result)
-                        bodypart.addExercise(createdEx).then(data => {
-                            if (data)
-                                res.send({ status: 0, message: `Create success!` })
+                        Promise.all(bodypartsData).then(data => {
+                            exercises.setBodyparts(data).then(() => {
+                                res.send({ status: 0, message: "Create success!" })
+                            })
                         })
                 }).catch(err => {
                     console.log(err);

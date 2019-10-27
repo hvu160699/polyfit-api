@@ -25,15 +25,16 @@ router.get("/getAll", (req, res) => {
 router.post("/create", (req, res) => {
     const mealsData = {
         title: req.body.title,
+        image_url: req.body.image_url
     }
 
     Meals.findOne({
         where: {
             title: req.body.title,
-            image_url: req.body.image_url
         }
     })
         .then(async obj => {
+            console.log(req.body.image_url)
             if (!obj) {
                 const diets = await Diets.findByPk(req.body.id_diets)
                 diets.createPolyfit_meal(mealsData).then(result => {

@@ -3,8 +3,8 @@ const router = express.Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
-// const db = require('../../config/db-connection')
 const User = require('./model')
+
 router.use(cors())
 
 process.env.SECRET_KEY = 'secret'

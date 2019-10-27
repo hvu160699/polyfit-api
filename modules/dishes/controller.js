@@ -9,7 +9,10 @@ router.use(cors())
 
 router.get("/getAll", (req, res) => {
     Dishes.findAll({
-        raw: true
+        include: [
+            { model: Ingredients, as: 'ingredients' },
+            { model: Meals }
+        ]
     })
         .then(data => {
             if (data) {
@@ -21,6 +24,18 @@ router.get("/getAll", (req, res) => {
         .catch(err => {
             res.send({ error: err })
         })
+})
+
+router.get("/getDishesDetail/:id", async (req, res) => {
+    const detail = await Dishes.findOne({
+        where: { id: req.params.id },
+        include: [
+            { model: Ingredients, as: 'ingredients' },
+            { model: Meals }
+        ]
+    });
+
+    res.send({ status: 0, message: 'Success', data: detail });
 })
 
 router.post("/create", (req, res) => {
@@ -84,6 +99,7 @@ router.put('/update', (req, res) => {
             throw new Error("Failed to update!")
         })
 })
+
 
 router.delete('/delete/:id', (req, res) => {
     Dishes.findOne({
