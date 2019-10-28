@@ -21,6 +21,24 @@ router.get("/getAll", (req, res) => {
         })
 })
 
+router.get("/getOne/:id", (req, res) => {
+    Level.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Object: data })
+            } else {
+                res.send({ status: 1, message: `${req.params.id} is not exist!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post("/create", (req, res) => {
     const levelData = {
         title: req.body.title,

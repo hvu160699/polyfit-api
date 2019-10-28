@@ -25,6 +25,25 @@ router.get("/getAllUsers", (req, res) => {
         })
 })
 
+router.get("/getCurrentUser/:id", (req, res) => {
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(obj => {
+            console.log(obj)
+            if (obj) {
+                res.send({ status: 0, message: "Success!", Response: obj })
+            }
+            else {
+                res.send({ status: 1, message: `${req.params.id} is not exist!` })
+            }
+        }).catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post('/register', (req, res) => {
     let bmi = (req.body.weight / (req.body.height * 2)) * 100
     const userData = {
