@@ -6,9 +6,7 @@ const Bodyparts = require('./model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
-    Bodyparts.findAll({
-        raw: true
-    })
+    Bodyparts.findAll()
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: "Success!", Response: data })
@@ -20,6 +18,14 @@ router.get("/getAll", (req, res) => {
             res.json({ error: err })
         })
 })
+
+// router.get("/getOne/:id", (req, res) => {
+//     Bodyparts.findOne({
+//         where: {
+//             id: req.params.id
+//         }
+//     })
+// })
 
 router.post("/create", async (req, res) => {
     const bodypartsData = {

@@ -22,25 +22,28 @@ router.get("/getAll", (req, res) => {
         })
 })
 
-router.get("/getOne/:id", (req, res) => {
+router.get("/getByBMI/:bmi", async (req, res) => {
+    const bmi = req.params.bmi
+
     Level.findOne({
         where: {
-            id: req.params.id
+            title: bmi < 18.5 && "Tăng cân" || bmi > 18.5 && "Giữ dáng"
         },
         include: [
-            { model: Exercises, as: 'Exercises' }
+            { model: Exercises, as: "Exercises" }
         ]
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Success!", Object: data })
+                res.send({ status: 0, message: "Success!", Response: data })
             } else {
-                res.send({ status: 1, message: `${req.params.id} doesn't exist!` })
+                res.send({ status: 1, message: "None data!" })
             }
         })
         .catch(err => {
-            throw new Error(err)
+            res.send({ error: err })
         })
+
 })
 
 router.post("/create", (req, res) => {
