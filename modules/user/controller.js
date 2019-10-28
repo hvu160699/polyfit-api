@@ -112,7 +112,7 @@ router.post('/login', (req, res) => {
                 })
 
                 user.update({ isOnline: true }).then(() => {
-                    res.send({ status: 0, message: "Login success!" })
+                    res.send({ status: 0, message: "Login success!", Object: user })
                 })
             } else {
                 res.send({ status: 1, message: "Wrong password!" })
