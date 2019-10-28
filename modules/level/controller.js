@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require('cors')
 
 const Level = require('./model')
+const Exercises = require('../exercises/model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -25,13 +26,16 @@ router.get("/getOne/:id", (req, res) => {
     Level.findOne({
         where: {
             id: req.params.id
-        }
+        },
+        include: [
+            { model: Exercises, as: 'Exercises' }
+        ]
     })
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: "Success!", Object: data })
             } else {
-                res.send({ status: 1, message: `${req.params.id} is not exist!` })
+                res.send({ status: 1, message: `${req.params.id} doesn't exist!` })
             }
         })
         .catch(err => {

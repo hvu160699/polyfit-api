@@ -44,6 +44,21 @@ router.get("/getCurrentUser/:id", (req, res) => {
         })
 })
 
+router.get("/getOnlineUser", (req, res) => {
+    User.findAll({
+        where: {
+            isOnline: true
+        }
+    })
+        .then(data => {
+            if (data) res.send({ status: 0, message: "Success!", Response: data })
+            else res.send({ status: 0, message: "None data!" })
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post('/register', (req, res) => {
     let bmi = (req.body.weight / (req.body.height * 2)) * 100
     const userData = {
@@ -97,14 +112,33 @@ router.post('/login', (req, res) => {
                 })
 
                 user.update({ isOnline: true }).then(() => {
-                    res.send({ status: 0, message: "Success!", Response: token })
+                    res.send({ status: 0, message: "Login success!" })
                 })
             } else {
                 res.send({ status: 1, message: "Wrong password!" })
             }
+
+            if (!user) {
+                res.send({ status: 2, message: "User doesn't exists!" })
+            }
         })
         .catch(err => {
-            res.send({ status: 2, message: "User doesn't exists!" })
+            throw new Error(err)
+        })
+})
+
+router.post('/logout', (req, res) => {
+    User.findOne({
+        where: {
+            id: req.body.id
+        }
+    })
+        .then(user => {
+            if (user) {
+                user.update({ isOnline: false }).then(() => res.send({ status: 0, message: "Logout!" }))
+            } else {
+                res.send({ status: 1, message: `Failed!`})
+            }
         })
 })
 
