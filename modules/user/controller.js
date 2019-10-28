@@ -34,7 +34,7 @@ router.get("/getCurrentUser/:id", (req, res) => {
         .then(obj => {
             console.log(obj)
             if (obj) {
-                res.send({ status: 0, message: "Success!", Response: obj })
+                res.send({ status: 0, message: "Success!", Object: obj })
             }
             else {
                 res.send({ status: 1, message: `${req.params.id} is not exist!` })
