@@ -34,6 +34,9 @@ const Dishes = sequelize.define(
             type: dataTypes.FLOAT,
             defaultValue: 0
         },
+        description: {
+            type: dataTypes.STRING,
+        }
     },
 )
 
