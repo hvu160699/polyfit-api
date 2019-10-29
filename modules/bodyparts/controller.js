@@ -2,32 +2,46 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors')
 
+const Exercises = require('../exercises/model')
 const Bodyparts = require('./model')
 router.use(cors())
 
-router.get("/getAll", (req, res) => {
+router.get('/getAll', (req, res) => {
     Bodyparts.findAll()
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Success!", Response: data })
+                res.send({ status: 0, message: 'Success!', Response: data })
             } else {
-                res.send({ status: 1, message: "None data!" })
+                res.send({ status: 1, message: 'None data!' })
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error(err)
         })
 })
 
-// router.get("/getOne/:id", (req, res) => {
-//     Bodyparts.findOne({
-//         where: {
-//             id: req.params.id
-//         }
-//     })
-// })
+router.get('/getDetailBodyparts/:id', (req, res) => {
+    Bodyparts.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            { model: Exercises, as: 'exercises' }
+        ]
+    })
+        .then(obj => {
+            if (obj) {
+                res.send({ status: 0, message: 'Success!', Object: obj })
+            } else {
+                res.send({ status: 1, message: `ID Bodyparts: ${req.params.id} doesn't exists!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
 
-router.post("/create", async (req, res) => {
+router.post('/create', async (req, res) => {
     const bodypartsData = {
         title: req.body.title,
         image_url: req.body.image_url,
@@ -53,13 +67,13 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
+                obj.update(req.body).then(() => res.send({ status: 0, message: 'Update success!' }))
             } else {
                 res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
         })
         .catch(err => {
-            throw new Error("Failed to update!")
+            throw new Error('Failed to update!')
         })
 })
 
@@ -71,13 +85,13 @@ router.delete('/delete/:id', (req, res) => {
     })
         .then(data => {
             if (data) {
-                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
+                data.destroy().then(() => res.send({ status: 0, message: 'Delete success!' }))
             } else {
                 res.send({ status: 1, message: `${req.params.id} doesn't exists` })
             }
         })
         .catch(err => {
-            throw new Error("Failed to delete!")
+            throw new Error('Failed to delete!')
         })
 })
 

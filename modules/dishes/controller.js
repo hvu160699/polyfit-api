@@ -120,6 +120,23 @@ router.delete('/delete/:id', (req, res) => {
         })
 })
 
+
+//===============
+router.get('/getAllDishesByMeal/:id', (req, res) => {
+    Dishes.findAll({
+        where: {
+            polyfitMealId: req.params.id
+        }
+    })
+        .then(data => {
+            if (data) res.send({ status: 0, message: `Success!`, Response: data })
+            else res.send({ status: 1, message: `polyfitMealId: ${req.params.id} doesn't exists!` })
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 module.exports = router
 
 

@@ -25,7 +25,7 @@ const Diet = sequelize.define(
     },
 )
 
-Diet.hasMany(Meal);
+Diet.hasMany(Meal, { as: "Meals" });
 Meal.belongsTo(Diet);
 
 module.exports = Diet
