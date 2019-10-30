@@ -126,7 +126,9 @@ router.get('/getAllDishesByMeal/:id', (req, res) => {
     Dishes.findAll({
         where: {
             polyfitMealId: req.params.id
-        }
+        }, include: [
+            { model: Ingredients, as: 'ingredients' }
+        ]
     })
         .then(data => {
             if (data) res.send({ status: 0, message: `Success!`, Response: data })
