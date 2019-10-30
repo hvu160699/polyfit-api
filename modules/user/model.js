@@ -48,6 +48,14 @@ const User = sequelize.define(
         display_name: {
             type: dataTypes.STRING,
             allowNull: false
+        },
+        firebase_token: {
+            type: dataTypes.STRING,
+            allowNull: true
+        },
+        avatar: {
+            type: dataTypes.STRING,
+            allowNull: true
         }
     }
 )

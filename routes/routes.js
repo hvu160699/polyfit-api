@@ -8,6 +8,7 @@ const mealsRoute = require('../modules/meals/controller')
 const dishesRoute = require('../modules/dishes/controller')
 const ingredientsRoute = require('../modules/ingredients/controller')
 const quotesRoute = require('../modules/quotes/controller')
+const routineRoute = require('../modules/routine/controller')
 
 const Routes = {
     User: userRoute,
@@ -20,6 +21,7 @@ const Routes = {
     Dishes: dishesRoute,
     Ingredients: ingredientsRoute,
     Quotes: quotesRoute,
+    Routine: routineRoute,
 }
 
 

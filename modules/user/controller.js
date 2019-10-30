@@ -3,7 +3,9 @@ const router = express.Router();
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
+
 const User = require('./model')
+const History = require('../history/model')
 
 router.use(cors())
 
@@ -80,11 +82,13 @@ router.post('/register', (req, res) => {
             if (!user) {
                 const hash = bcrypt.hashSync(userData.password, 10)
                 userData.password = hash
+
                 User.create(userData)
                     .then(user => {
                         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                             expiresIn: 1440
                         })
+
                         res.send({ status: 0, message: "Success!", Response: token })
                     })
                     .catch(err => {
@@ -95,7 +99,7 @@ router.post('/register', (req, res) => {
             }
         })
         .catch(err => {
-            res.send('error : ' + err)
+            res.send('error: ' + err)
         })
 })
 
@@ -111,7 +115,7 @@ router.post('/login', (req, res) => {
                     expiresIn: 1440
                 })
 
-                user.update({ isOnline: true }).then(() => {
+                user.update({ isOnline: true, firebase_token: req.body.firebase_token }).then(() => {
                     res.send({ status: 0, message: "Login success!", Object: user })
                 })
             } else {
@@ -135,9 +139,11 @@ router.post('/logout', (req, res) => {
     })
         .then(user => {
             if (user) {
-                user.update({ isOnline: false }).then(() => res.send({ status: 0, message: "Logout!" }))
+                user.update({ isOnline: false, firebase_token: null })
+                    .then(() => res.send({ status: 0, message: "Logout!" }))
+                    .catch(err => { throw new Error(err) })
             } else {
-                res.send({ status: 1, message: `Failed!`})
+                res.send({ status: 1, message: `Failed!` })
             }
         })
 })

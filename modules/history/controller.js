@@ -1,5 +1,6 @@
 const con = require('../../config/db-connection')
 const express = require('express');
+const History = require('./model')
 const router = express.Router();
 const path = '/'
 
@@ -10,7 +11,20 @@ router.get(path, (req, res) => {
     });
 })
 
-
+router.get('/getHistoryByUserId/:id', (req, res) => {
+    History.findAll({
+        where: {
+            polyfitUserId: req.params.id
+        }
+    })
+        .then(data => {
+            if (data) res.send({ status: 0, message: "Success!", Response: data })
+            else res.send({ status: 0, message: `ID User : ${req.params.id} doesn't exist!` })
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
 
 router.post("/add", (req, res) => {
     const bmi = req.body.bmi;

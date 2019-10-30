@@ -21,6 +21,7 @@ app.use('/meals', routes.Meals)
 app.use('/dishes', routes.Dishes)
 app.use('/ingredients', routes.Ingredients)
 app.use('/qoutes', routes.Quotes)
+app.use('/routine', routes.Routine)
 
 
 const port = process.env.PORT || 3030
