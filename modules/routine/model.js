@@ -14,7 +14,7 @@ const Routine = sequelize.define(
             allowNull: false,
             defaultValue: 0
         },
-        time_practise: {
+        time_practice: {
             type: dataTypes.STRING,
             allowNull: false,
             defaultValue: "",

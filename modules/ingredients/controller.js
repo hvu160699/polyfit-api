@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require('cors')
 
 const Ingredients = require('./model')
+const Dishes = require('../dishes/model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -18,6 +19,17 @@ router.get("/getAll", (req, res) => {
             res.send({ error: err })
         })
 })
+
+// router.get("/getAllDishesByIngredient/:id", (req, res) => {
+//     Ingredients.findOne({
+//         where: {
+//             id: req.params.id
+//         },
+//         include: [
+//             { model: Dishes, as: "dishes" }
+//         ]
+//     }).then(data => res.send(data))
+// })
 
 router.post("/create", (req, res) => {
     const ingredientsData = {

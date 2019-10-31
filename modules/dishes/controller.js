@@ -38,6 +38,18 @@ router.get("/getDishesDetail/:id", async (req, res) => {
     res.send({ status: 0, message: 'Success', data: detail });
 })
 
+router.get("/getAllDishesByIngredient/:id", (req, res) => {
+    Dishes.findAll({
+        include: [
+            {
+                model: Ingredients, as: "ingredients", where: {
+                    id: req.params.id
+                }
+            }
+        ]
+    }).then(data => res.send(data))
+})
+
 router.post("/create", (req, res) => {
     const dishesData = {
         title: req.body.title,

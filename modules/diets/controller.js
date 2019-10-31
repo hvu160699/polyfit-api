@@ -69,8 +69,6 @@ router.post('/create', (req, res) => {
                 }).catch(err => {
                     console.log(err);
                 })
-
-                // Diets.create(dietsData)
             } else {
                 res.send({ status: 1, message: `${req.body.title} is already exists!` })
             }
