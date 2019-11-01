@@ -89,14 +89,6 @@ router.post('/register', (req, res) => {
                         let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                             expiresIn: 1440
                         })
-
-                        const routineData = Routine.create({
-                            step_count: 0,
-                            time_practice: 0,
-                            calories_consumed: 0,
-                        })
-
-                        user.addPolyfit_routine(routineData)
                         res.send({ status: 0, message: "Success!", Response: token })
                     })
                     .catch(err => {

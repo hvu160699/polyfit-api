@@ -3,6 +3,7 @@ const router = express.Router();
 const cors = require('cors')
 
 const Routine = require('./model')
+const User = require('../user/model')
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -34,23 +35,25 @@ router.get("/getRoutinesByUserId/:id", (req, res) => {
         })
 })
 
-router.post("/create", (req, res) => {
+router.post("/create", async (req, res) => {
     const routineData = {
         step_count: req.body.step_count,
         time_pratice: req.body.time_pratice,
-        image_url: req.body.calories_consumed,
-        polyfitUserId: req.body.id_user
+        calories_consumed: req.body.calories_consumed,
     }
 
-    Routine.findOrCreate({
-        where: routineData
-    })
-        .then(([routine, created]) => {
-            if (created) {
-                res.send({ status: 0, message: `Create success!` });
+    const user = await User.findByPk(req.body.id_user);
+
+    user.createRoutine(routineData)
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Create success!" })
             } else {
-                res.send({ status: 1, message: `Failed to created!` })
+                res.send({ status: 1, message: `Failed!` })
             }
+        })
+        .catch(err => {
+            throw new Error("Failed to delete!")
         })
 })
 

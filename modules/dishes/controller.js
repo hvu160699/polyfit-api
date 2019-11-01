@@ -45,9 +45,15 @@ router.get("/getAllDishesByIngredient/:id", (req, res) => {
                 model: Ingredients, as: "ingredients", where: {
                     id: req.params.id
                 }
+            },
+            {
+                model: Meals
             }
         ]
-    }).then(data => res.send(data))
+    }).then(data => {
+        if (data) res.send({ status: 0, message: `Success!`, Response: data })
+        else res.send({ status: 1, message: `Ingredients ID : ${req.params.id} doesn't exists!` })
+    })
 })
 
 router.post("/create", (req, res) => {
