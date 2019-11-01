@@ -7,7 +7,7 @@ const Ingredients = require('../ingredients/model')
 const Meals = require('../meals/model')
 router.use(cors())
 
-router.get("/getAll", (req, res) => {
+router.get('/getAll', (req, res) => {
     Dishes.findAll({
         include: [
             { model: Ingredients, as: 'ingredients' },
@@ -16,9 +16,9 @@ router.get("/getAll", (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: "Success!", Response: data })
+                res.send({ status: 0, message: 'Success!', Response: data })
             } else {
-                res.send({ status: 1, message: "None data!" })
+                res.send({ status: 1, message: 'None data!' })
             }
         })
         .catch(err => {
@@ -26,37 +26,7 @@ router.get("/getAll", (req, res) => {
         })
 })
 
-router.get("/getDishesDetail/:id", async (req, res) => {
-    const detail = await Dishes.findOne({
-        where: { id: req.params.id },
-        include: [
-            { model: Ingredients, as: 'ingredients' },
-            { model: Meals }
-        ]
-    });
-
-    res.send({ status: 0, message: 'Success', data: detail });
-})
-
-router.get("/getAllDishesByIngredient/:id", (req, res) => {
-    Dishes.findAll({
-        include: [
-            {
-                model: Ingredients, as: "ingredients", where: {
-                    id: req.params.id
-                }
-            },
-            {
-                model: Meals
-            }
-        ]
-    }).then(data => {
-        if (data) res.send({ status: 0, message: `Success!`, Response: data })
-        else res.send({ status: 1, message: `Ingredients ID : ${req.params.id} doesn't exists!` })
-    })
-})
-
-router.post("/create", (req, res) => {
+router.post('/create', (req, res) => {
     const dishesData = {
         title: req.body.title,
         image_url: req.body.image_url,
@@ -87,7 +57,7 @@ router.post("/create", (req, res) => {
                     if (result)
                         Promise.all(ingredientsData).then(data => {
                             dishes.setIngredients(data).then(() => {
-                                res.send({ status: 0, message: "Create success!" })
+                                res.send({ status: 0, message: 'Create success!' })
                             })
                         })
                 })
@@ -109,16 +79,15 @@ router.put('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
+                obj.update(req.body).then(() => res.send({ status: 0, message: 'Update success!' }))
             } else {
                 res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
         })
         .catch(err => {
-            throw new Error("Failed to update!")
+            throw new Error('Failed to update!')
         })
 })
-
 
 router.delete('/delete/:id', (req, res) => {
     Dishes.findOne({
@@ -128,18 +97,28 @@ router.delete('/delete/:id', (req, res) => {
     })
         .then(data => {
             if (data) {
-                data.destroy().then(() => res.send({ status: 0, message: "Delete success!" }))
+                data.destroy().then(() => res.send({ status: 0, message: 'Delete success!' }))
             } else {
                 res.send({ status: 1, message: `${req.params.id} doesn't exists` })
             }
         })
         .catch(err => {
-            throw new Error("Failed to delete!")
+            throw new Error('Failed to delete!')
         })
 })
 
+router.get('/getDishesDetail/:id', async (req, res) => {
+    const detail = await Dishes.findOne({
+        where: { id: req.params.id },
+        include: [
+            { model: Ingredients, as: 'ingredients' },
+            { model: Meals }
+        ]
+    });
 
-//===============
+    res.send({ status: 0, message: 'Success', data: detail });
+})
+
 router.get('/getAllDishesByMeal/:id', (req, res) => {
     Dishes.findAll({
         where: {
@@ -155,6 +134,24 @@ router.get('/getAllDishesByMeal/:id', (req, res) => {
         .catch(err => {
             throw new Error(err)
         })
+})
+
+router.get('/getAllDishesByIngredient/:id', (req, res) => {
+    Dishes.findAll({
+        include: [
+            {
+                model: Ingredients, as: 'ingredients', where: {
+                    id: req.params.id
+                }
+            },
+            {
+                model: Meals
+            }
+        ]
+    }).then(data => {
+        if (data) res.send({ status: 0, message: `Success!`, Response: data })
+        else res.send({ status: 1, message: `Ingredients ID : ${req.params.id} doesn't exists!` })
+    })
 })
 
 module.exports = router

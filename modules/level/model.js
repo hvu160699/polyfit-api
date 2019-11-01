@@ -28,7 +28,7 @@ const Level = sequelize.define(
 
 Level.hasMany(Excercise, { as: 'Exercises' });
 Excercise.belongsTo(Level);
-Level.hasMany(Diet);
+Level.hasMany(Diet, { as: 'Diets' });
 Diet.belongsTo(Level);
 
 module.exports = Level

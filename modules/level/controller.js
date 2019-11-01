@@ -4,6 +4,10 @@ const cors = require('cors')
 
 const Level = require('./model')
 const Exercises = require('../exercises/model')
+const Diets = require('../diets/model')
+const Meals = require('../meals/model')
+const Dishes = require('../dishes/model')
+
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
@@ -43,6 +47,56 @@ router.get("/getLevelByBMI/:bmi", async (req, res) => {
             throw new Error(err)
         })
 
+})
+
+router.get('/getAllDishesByIdLevel/:id', (req, res) => {
+    Level.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Diets, as: 'Diets', include: [
+                    {
+                        model: Meals, as: 'Meals', include: [
+                            { model: Dishes, as: 'Dishes' }
+                        ]
+                    }
+                ]
+            }
+        ]
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Level : ${req.params.id} doesn't exist!` })
+            }
+        })
+        .catch(err => {
+            throw new Error('Failed!')
+        })
+})
+
+router.get('/getAllExercisesByIdLevel/:id', (req, res) => {
+    Level.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            { model: Exercises, as: 'Exercises' }
+        ]
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Level : ${req.params.id} doesn't exist!` })
+            }
+        })
+        .catch(err => {
+            throw new Error('Failed!')
+        })
 })
 
 router.post("/create", (req, res) => {
