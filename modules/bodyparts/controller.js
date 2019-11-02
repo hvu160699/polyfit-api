@@ -7,7 +7,9 @@ const Bodyparts = require('./model')
 router.use(cors())
 
 router.get('/getAll', (req, res) => {
-    Bodyparts.findAll()
+    Bodyparts.findAll({ include: [
+        { model: Exercises, as: 'exercises' }
+    ]})
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: 'Success!', Response: data })
