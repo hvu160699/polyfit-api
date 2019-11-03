@@ -28,6 +28,25 @@ router.get("/getAllUsers", (req, res) => {
         })
 })
 
+router.get("/getUserByUsername/:username", (req, res) => {
+    User.findOne({
+        where: {
+            username: req.params.username
+        }
+    })
+        .then(obj => {
+            if (obj) {
+                res.send({ status: 0, message: "Success!", Object: obj })
+            }
+            else {
+                res.send({ status: 1, message: `${req.params.username} is not exist!` })
+            }
+        }).catch(err => {
+            throw new Error(err)
+        })
+
+})
+
 router.get("/getCurrentUser/:id", (req, res) => {
     User.findOne({
         where: {

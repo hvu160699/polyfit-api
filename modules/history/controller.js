@@ -1,15 +1,7 @@
-const con = require('../../config/db-connection')
 const express = require('express');
 const History = require('./model')
+const User = require('../user/model')
 const router = express.Router();
-const path = '/'
-
-router.get(path, (req, res) => {
-    con.query("SELECT * FROM `polyfit_history`", function (err, result, fields) {
-        if (err) return err;
-        res.send(result);
-    });
-})
 
 router.get('/getHistoryByUserId/:id', (req, res) => {
     History.findAll({
@@ -26,27 +18,24 @@ router.get('/getHistoryByUserId/:id', (req, res) => {
         })
 })
 
-router.post("/add", (req, res) => {
-    const bmi = req.body.bmi;
-    const id_level = req.body.id_level;
-    const id_user = req.body.id_user;
-    const addHistory = "INSERT INTO `polyfit_history` (`bmi`, `id_level`, `id_user`) VALUES (?, ?, ?)"
-    con.query(addHistory, [bmi, id_level, id_user], () => {
-        con.on('error', err => {
-            console.log("MySQL ERROR : ", err);
-            res.json("Add error : ", err);
+router.post('/create', async (req, res) => {
+    const historyData = {
+        bmi: req.body.bmi
+    }
+
+    const user = await User.findByPk(req.body.id_user);
+
+    user.createHistory(historyData)
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Create success!" })
+            } else {
+                res.send({ status: 1, message: `Failed!` })
+            }
         })
-        res.json("Add Success!");
-    })
-})
-
-
-router.put(path, (req, res) => {
-    res.send("PUT history")
-})
-
-router.delete(path, (req, res) => {
-    res.send("DELETE history")
+        .catch(err => {
+            throw new Error("Failed to delete!")
+        })
 })
 
 module.exports = router;
