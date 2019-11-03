@@ -9,7 +9,17 @@ const Level = require('../level/model')
 router.use(cors())
 
 router.get('/getAll', (req, res) => {
-    Diets.findAll()
+    Diets.findAll({
+        include: [
+            {
+                model: Meals, as: 'Meals',
+                include: [
+                    { model: Dishes, as: 'Dishes' },
+                    { model: Ingredients, as: 'ingredients' },
+                ]
+            }
+        ]
+    })
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: 'Success!', Response: data })
