@@ -125,7 +125,7 @@ router.post('/login', (req, res) => {
             }
         })
         .catch(err => {
-            res.send({ status: 2, message: "User doesn't exists!" })
+            throw new Error("User doesn't exist!")
         })
 })
 
