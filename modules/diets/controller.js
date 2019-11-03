@@ -14,8 +14,12 @@ router.get('/getAll', (req, res) => {
             {
                 model: Meals, as: 'Meals',
                 include: [
-                    { model: Dishes, as: 'Dishes' },
-                    { model: Ingredients, as: 'ingredients' },
+                    {
+                        model: Dishes, as: 'Dishes', include: [
+                            { model: Ingredients, as: 'ingredients' }
+                        ]
+                    },
+                    ,
                 ]
             }
         ]
