@@ -75,7 +75,7 @@ router.post('/register', (req, res) => {
     }
 
     console.log(req.body);
-    
+
     User.findOne({
         where: {
             username: req.body.username
@@ -123,13 +123,9 @@ router.post('/login', (req, res) => {
             } else {
                 res.send({ status: 1, message: "Wrong password!" })
             }
-
-            if (!user) {
-                res.send({ status: 2, message: "User doesn't exists!" })
-            }
         })
         .catch(err => {
-            throw new Error(err)
+            res.send({ status: 2, message: "User doesn't exists!" })
         })
 })
 
