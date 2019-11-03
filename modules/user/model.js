@@ -12,7 +12,8 @@ const User = sequelize.define(
             autoIncrement: true
         },
         phoneNumber: {
-            type: dataTypes.STRING
+            type: dataTypes.STRING,
+            allowNull: true,
         },
         username: {
             type: dataTypes.STRING,
