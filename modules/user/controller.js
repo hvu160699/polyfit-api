@@ -74,6 +74,8 @@ router.post('/register', (req, res) => {
         gender: req.body.gender,
     }
 
+    console.log(req.body);
+    
     User.findOne({
         where: {
             username: req.body.username
