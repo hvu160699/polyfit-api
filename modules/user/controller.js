@@ -166,6 +166,8 @@ router.post('/logout', (req, res) => {
 })
 
 router.post('/update', (req, res) => {
+    let bmi = (req.body.weight / (req.body.height * 2)) * 100
+
     User.findOne({
         where: {
             id: req.body.id
@@ -173,7 +175,7 @@ router.post('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                obj.update(req.body).then(() => res.send({ status: 0, message: "Update success!" }))
+                obj.update({ ...req.body, bmi: bmi.toFixed(2) }).then(() => res.send({ status: 0, message: "Update success!" }))
             } else {
                 res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }
