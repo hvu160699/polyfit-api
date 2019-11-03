@@ -34,10 +34,9 @@ router.post("/create", (req, res) => {
         }
     })
         .then(async obj => {
-            console.log(req.body.image_url)
             if (!obj) {
                 const diets = await Diets.findByPk(req.body.id_diets)
-                diets.createPolyfit_meal(mealsData).then(result => {
+                diets.createMeal(mealsData).then(result => {
                     res.send({ status: 0, message: `Create success!` })
                 }).catch(err => {
                     console.log(err);
@@ -47,7 +46,7 @@ router.post("/create", (req, res) => {
             }
         })
         .catch(err => {
-            res.send({ error: err })
+            throw new Error(err)
         })
 })
 
