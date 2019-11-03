@@ -40,6 +40,7 @@ router.post("/create", async (req, res) => {
         step_count: req.body.step_count,
         time_pratice: req.body.time_pratice,
         calories_consumed: req.body.calories_consumed,
+        create_date: req.body.create_date,
     }
 
     const user = await User.findByPk(req.body.id_user);

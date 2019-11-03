@@ -23,6 +23,10 @@ const Routine = sequelize.define(
             type: dataTypes.STRING,
             allowNull: false,
             defaultValue: "",
+        },
+        create_date: {
+            type: dataTypes.STRING,
+            allowNull: true,
         }
     }
 )
