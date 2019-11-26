@@ -1,5 +1,5 @@
 
-const sequelize = require('./config/db-connection')
+const port = process.env.PORT || 3030
 const express = require('express')
 const bodyParser = require('body-parser')
 const routes = require('./routes/routes')
@@ -24,7 +24,6 @@ app.use('/qoutes', routes.Quotes)
 app.use('/routine', routes.Routine)
 
 
-const port = process.env.PORT || 3030
 
 // sequelize.authenticate()
 //   .then(() => {
