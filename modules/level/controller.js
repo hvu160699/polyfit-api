@@ -99,6 +99,27 @@ router.get('/getAllExercisesByIdLevel/:id', (req, res) => {
         })
 })
 
+router.get('/getAllDietsByLevelId/:id', (req, res) => {
+    Level.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            { model: Diets, as: 'Diets' }
+        ]
+    })
+    .then(data => {
+            if (data) {
+                res.send({ status: 0, message: 'Success!', Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Level : ${req.params.id} doesn't exist!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post("/create", (req, res) => {
     const levelData = {
         title: req.body.title,

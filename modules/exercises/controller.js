@@ -22,7 +22,7 @@ router.get("/getAll", (req, res) => {
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error(err)
         })
 })
 
@@ -118,6 +118,27 @@ router.delete('/delete/:id', (req, res) => {
         })
         .catch(err => {
             throw new Error("Failed to delete!")
+        })
+})
+
+router.get('/getAllByLevelId/:id', (req, res) => {
+    Level.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            { model: Exercises, as: 'Exercises' }
+        ]
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Level: ${req.params.id} doesn't exists!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
         })
 })
 

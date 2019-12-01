@@ -48,6 +48,26 @@ router.get('/getAllDishesByDiets/:id', (req, res) => {
         })
 })
 
+router.get('/getAll/:levelId', (req, res) => {
+    Diets.findAll(
+        {
+            where: {
+                polyfitLevelId: req.params.levelId
+            }
+        }
+    )
+        .then(data => {
+            if (data && data.length !== 0) {
+                res.send({ status: 0, message: 'Success!', Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Level : ${req.params.levelId} doesn't exist!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post('/create', (req, res) => {
     const dietsData = {
         title: req.body.title,

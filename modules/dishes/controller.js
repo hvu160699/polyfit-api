@@ -3,6 +3,8 @@ const router = express.Router();
 const cors = require('cors')
 
 const Dishes = require('./model')
+const Level = require('../level/model')
+const Diets = require('../diets/model')
 const Ingredients = require('../ingredients/model')
 const Meals = require('../meals/model')
 router.use(cors())
@@ -137,21 +139,21 @@ router.get('/getAllDishesByMeal/:id', (req, res) => {
 })
 
 router.get('/getAllDishesByIngredient/:id', (req, res) => {
-    Dishes.findAll({
+    Ingredients.findOne({
+        where: {
+            id: req.params.id
+        },
         include: [
-            {
-                model: Ingredients, as: 'ingredients', where: {
-                    id: req.params.id
-                }
-            },
-            {
-                model: Meals
-            }
+            { model: Dishes, as: 'dishes' },
         ]
-    }).then(data => {
-        if (data) res.send({ status: 0, message: `Success!`, Response: data })
-        else res.send({ status: 1, message: `Ingredients ID : ${req.params.id} doesn't exists!` })
     })
+        .then(data => {
+            if (data) res.send({ status: 0, message: `Success!`, Response: data })
+            else res.send({ status: 1, message: `Ingredients ID : ${req.params.id} doesn't exists!` })
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
 })
 
 module.exports = router

@@ -175,7 +175,7 @@ router.post('/update', (req, res) => {
     })
         .then(obj => {
             if (obj) {
-                obj.update({ ...req.body, bmi: bmi.toFixed(2) }).then(() => res.send({ status: 0, message: "Update success!" }))
+                obj.update({ ...req.body, bmi: bmi.toFixed(2) }).then(() => res.send({ status: 0, message: "Update success!", Object: obj }))
             } else {
                 res.send({ status: 1, message: `${obj.id} doesn't exists` })
             }

@@ -1,11 +1,10 @@
-
 const port = process.env.PORT || 3030
 const express = require('express')
 const bodyParser = require('body-parser')
-const routes = require('./routes/routes')
 const cors = require('cors')
-
 const app = express()
+
+const routes = require('./routes/routes');
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -22,7 +21,6 @@ app.use('/dishes', routes.Dishes)
 app.use('/ingredients', routes.Ingredients)
 app.use('/qoutes', routes.Quotes)
 app.use('/routine', routes.Routine)
-
 
 
 // sequelize.authenticate()

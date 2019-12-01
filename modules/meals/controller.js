@@ -4,6 +4,9 @@ const cors = require('cors')
 
 const Meals = require('./model')
 const Diets = require('../diets/model')
+const Dishes = require('../dishes/model')
+const Level = require('../level/model')
+
 router.use(cors())
 
 router.get("/getAll", (req, res) => {
