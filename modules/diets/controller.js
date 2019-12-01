@@ -83,8 +83,8 @@ router.post('/create', (req, res) => {
         .then(async obj => {
             if (!obj) {
                 const level = await Level.findByPk(req.body.id_level);
-
-                level.addDiets(dietsData).then(result => {
+                
+                level.createDiet(dietsData).then(result => {
                     res.send({ status: 0, message: `Create success!` })
                 }).catch(err => {
                     console.log(err);
