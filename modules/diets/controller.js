@@ -84,7 +84,7 @@ router.post('/create', (req, res) => {
             if (!obj) {
                 const level = await Level.findByPk(req.body.id_level);
 
-                level.createPolyfit_diet(dietsData).then(result => {
+                level.addDiets(dietsData).then(result => {
                     res.send({ status: 0, message: `Create success!` })
                 }).catch(err => {
                     console.log(err);
@@ -94,7 +94,7 @@ router.post('/create', (req, res) => {
             }
         })
         .catch(err => {
-            res.json({ error: err })
+            throw new Error(err)
         })
 })
 
