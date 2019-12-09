@@ -85,6 +85,25 @@ router.get('/exDetail/:id', async (req, res) => {
     res.send({ status: 0, message: 'Thành công ( Phú )', data: ex });
 })
 
+router.get('/getAllBodypartsByLevelExercises/:idLevel/:idBodyparts', (req, res) => {
+    Exercises.findAll({
+        where: { polyfitLevelId: req.params.idLevel },
+        include: [
+            { model: Bodyparts, as: 'bodyparts', where: { id: req.params.idBodyparts } }
+        ]
+    })
+        .then(data => {
+            if (data && data.length !== 0) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: "Some of ID doesn't exists !" })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.put('/update', (req, res) => {
     Exercises.findOne({
         where: {

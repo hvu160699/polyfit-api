@@ -21,7 +21,25 @@ router.get("/getAll", (req, res) => {
             }
         })
         .catch(err => {
-            res.send({ error: err })
+            throw new Error(err)
+        })
+})
+
+router.get("/getAllMealsByDiets/:idDiet", (req, res) => {
+    Meals.findAll({
+        where: {
+            polyfitDietId: req.params.idDiet
+        }
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: `ID Diet: ${req.params.idDiet} doesn't exists!` })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
         })
 })
 
