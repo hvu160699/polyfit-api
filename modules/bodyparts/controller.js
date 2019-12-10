@@ -6,10 +6,30 @@ const Exercises = require('../exercises/model')
 const Bodyparts = require('./model')
 router.use(cors())
 
-router.get('/getAll', (req, res) => {
-    Bodyparts.findAll({ include: [
-        { model: Exercises, as: 'exercises' }
-    ]})
+router.get('/getAll/', (req, res) => {
+    Bodyparts.findAll({
+        include: [
+            { model: Exercises, as: 'exercises' }
+        ]
+    })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: 'Success!', Response: data })
+            } else {
+                res.send({ status: 1, message: 'None data!' })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
+router.get('/getAll/:levelId', (req, res) => {
+    Bodyparts.findAll({
+        include: [
+            { model: Exercises, as: 'exercises' }
+        ], where: { polyfitLevelId: req.params.levelId}
+    })
         .then(data => {
             if (data) {
                 res.send({ status: 0, message: 'Success!', Response: data })
