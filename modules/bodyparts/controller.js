@@ -27,8 +27,8 @@ router.get('/getAll/', (req, res) => {
 router.get('/getAll/:levelId', (req, res) => {
     Bodyparts.findAll({
         include: [
-            { model: Exercises, as: 'exercises' }
-        ], where: { polyfitLevelId: req.params.levelId}
+            { model: Exercises, as: 'exercises', where: { polyfitLevelId: req.params.levelId } },
+        ]
     })
         .then(data => {
             if (data) {
