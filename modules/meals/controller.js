@@ -43,17 +43,20 @@ router.get("/getAllMealsByDiets/:idDiet", (req, res) => {
         })
 })
 
-router.get("/getAllDishesOfAllMeals", (req, res) => {
+router.get("/getAllDishesOfAllMeals/:title", (req, res) => {
     Meals.findAll({ include: [{ model: Dishes, as: 'Dishes' }] })
-        .then(data => {
-            if (data) {
-                res.send({ status: 0, message: "Success!", Response: data })
+        .then(async data => {
+            let result = [];
+            if (data !== 0) {
+                await data.forEach((element, i) => {
+                    if (element.title.includes(`${req.params.title}`) && element.Dishes.length !== 0) {
+                        result.push(element.Dishes)
+                    }
+                })
+                await res.send({ status: 0, message: "Success!", Response: result })
             } else {
                 res.send({ status: 1, message: "Somethings goes wrong!" })
             }
-        })
-        .catch(err => {
-            throw new Error(err)
         })
 })
 
