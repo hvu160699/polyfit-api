@@ -85,7 +85,7 @@ router.get('/exDetail/:id', async (req, res) => {
     res.send({ status: 0, message: 'Thành công ( Phú )', data: ex });
 })
 
-router.get('/getAllBodypartsByLevelExercises/:idLevel/:idBodyparts', (req, res) => {
+router.get('/getAllExercisesOfBodyPartByLevel/:idLevel/:idBodyparts', (req, res) => {
     Exercises.findAll({
         where: { polyfitLevelId: req.params.idLevel },
         include: [
