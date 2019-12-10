@@ -29,7 +29,7 @@ router.get('/getAllDishesByDiets/:id', (req, res) => {
         },
         include: [
             {
-                model: Meals, as: 'Meals',
+                model: Meals, as: 'meals',
                 include: [
                     { model: Dishes, as: 'Dishes' }
                 ]
