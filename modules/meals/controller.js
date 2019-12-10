@@ -6,6 +6,7 @@ const Meals = require('./model')
 const Diets = require('../diets/model')
 const Dishes = require('../dishes/model')
 const Level = require('../level/model')
+const Ingredient = require("../ingredients/model");
 
 router.use(cors())
 
@@ -44,7 +45,12 @@ router.get("/getAllMealsByDiets/:idDiet", (req, res) => {
 })
 
 router.get("/getAllDishesOfAllMeals/:title", (req, res) => {
-    Meals.findAll({ include: [{ model: Dishes, as: 'Dishes' }] })
+    Meals.findAll({
+        include: [{
+            model: Dishes, as: 'Dishes',
+            include: [{ model: Ingredient, as: 'ingredients' }]
+        }]
+    })
         .then(async data => {
             let result = [];
             let meal = "";
