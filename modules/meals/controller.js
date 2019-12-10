@@ -47,9 +47,20 @@ router.get("/getAllDishesOfAllMeals/:title", (req, res) => {
     Meals.findAll({ include: [{ model: Dishes, as: 'Dishes' }] })
         .then(async data => {
             let result = [];
+            let meal = "";
+
+            if (req.params.title == "sang") {
+                meal = "sáng"
+            } else if (req.params.title == "trua") {
+                meal = "trưa"
+            } else if (req.params.title == "toi") {
+                meal = "tối"
+            }
+
             if (data !== 0) {
+
                 await data.forEach((element, i) => {
-                    if (element.title.includes(`${req.params.title}`) && element.Dishes.length !== 0) {
+                    if (element.title.includes(meal) && element.Dishes.length !== 0) {
                         result.push(element.Dishes)
                     }
                 })
