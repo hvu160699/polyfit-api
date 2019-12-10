@@ -61,7 +61,7 @@ router.get("/getAllDishesOfAllMeals/:title", (req, res) => {
 
                 await data.forEach((element, i) => {
                     if (element.title.includes(meal) && element.Dishes.length !== 0) {
-                        result.push(element.Dishes)
+                        result.push(...element.Dishes)
                     }
                 })
                 await res.send({ status: 0, message: "Success!", Response: result })
