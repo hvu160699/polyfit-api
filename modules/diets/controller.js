@@ -23,7 +23,7 @@ router.get('/getAll', (req, res) => {
 })
 
 router.get('/getAllDishesByDiets/:id', (req, res) => {
-    Diets.findAll({
+    Diets.findOne({
         where: {
             id: req.params.id
         },
@@ -38,7 +38,7 @@ router.get('/getAllDishesByDiets/:id', (req, res) => {
     })
         .then(data => {
             if (data) {
-                res.send({ status: 0, message: 'Success!', Response: data })
+                res.send({ status: 0, message: 'Success!', Object: data })
             } else {
                 res.send({ status: 1, message: `ID Diets : ${req.params.id} doesn't exist!` })
             }
