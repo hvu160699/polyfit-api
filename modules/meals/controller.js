@@ -43,6 +43,20 @@ router.get("/getAllMealsByDiets/:idDiet", (req, res) => {
         })
 })
 
+router.get("/getAllDishesOfAllMeals", (req, res) => {
+    Meals.findAll({ include: [{ model: Dishes, as: 'Dishes' }] })
+        .then(data => {
+            if (data) {
+                res.send({ status: 0, message: "Success!", Response: data })
+            } else {
+                res.send({ status: 1, message: "Somethings goes wrong!" })
+            }
+        })
+        .catch(err => {
+            throw new Error(err)
+        })
+})
+
 router.post("/create", (req, res) => {
     const mealsData = {
         title: req.body.title,
