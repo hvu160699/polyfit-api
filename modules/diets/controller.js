@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const cors = require('cors')
+const cors = require('cors');
 
-const Diets = require('./model')
-const Dishes = require('../dishes/model')
-const Meals = require('../meals/model')
-const Level = require('../level/model')
+const Diets = require('./model');
+const Dishes = require('../dishes/model');
+const Meals = require('../meals/model');
+const Level = require('../level/model');
+const Ingredient = require("../ingredients/model");
+
 router.use(cors())
 
 router.get('/getAll', (req, res) => {
@@ -31,7 +33,7 @@ router.get('/getAllDishesByDiets/:id', (req, res) => {
             {
                 model: Meals, as: 'Meals',
                 include: [
-                    { model: Dishes, as: 'Dishes' }
+                    { model: Dishes, as: 'Dishes', include: [{ model: Ingredient, as: 'ingredients' }] }
                 ]
             }
         ]
